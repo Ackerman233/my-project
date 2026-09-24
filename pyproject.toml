@@ -8,7 +8,10 @@ version = "0.1.0"
 description = "Training-free dynamic skill execution prototype for SkillOpt ALFWorld"
 requires-python = ">=3.10"
 
+[tool.setuptools.packages.find]
+include = ["dynamic_skill*", "experiments*"]
+exclude = ["results*", "tests*", "skillopt*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-
