@@ -2,12 +2,32 @@ from __future__ import annotations
 
 import argparse
 from functools import partial
+import os
 from pathlib import Path
 import sys
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SKILLOPT_ROOT = (PROJECT_ROOT / "skillopt").resolve()
+
+
+def _absolute_cli_paths(arguments: list[str], base: Path) -> list[str]:
+    path_flags = {
+        "--config",
+        "--skill",
+        "--out_root",
+        "--data_path",
+        "--split_dir",
+        "--split_output_dir",
+    }
+    resolved = list(arguments)
+    for index, token in enumerate(resolved[:-1]):
+        if token in path_flags:
+            path = Path(resolved[index + 1]).expanduser()
+            if not path.is_absolute():
+                path = base / path
+            resolved[index + 1] = str(path.resolve())
+    return resolved
 
 
 def run(mode: str) -> None:
@@ -31,6 +51,7 @@ def run(mode: str) -> None:
 
     from scripts import eval_only
 
+    remaining = _absolute_cli_paths(remaining, Path.cwd())
+    os.chdir(SKILLOPT_ROOT)
     sys.argv = [sys.argv[0], *remaining]
     eval_only.main()
-

@@ -22,6 +22,7 @@ have already happened in the environment.
 
 ```bash
 cd /opt/data/private/src/my-project
+export ALFWORLD_DATA=/root/.cache/alfworld
 python3 -m venv .venv
 .venv/bin/python -m pip install -U pip
 .venv/bin/python -m pip install -e './skillopt[alfworld]' pytest
@@ -32,6 +33,8 @@ alfworld-download
 ## Baseline: two ALFWorld samples
 
 ```bash
+cd /opt/data/private/src/my-project
+export ALFWORLD_DATA=/root/.cache/alfworld
 .venv/bin/python experiments/react.py \
   --config skillopt/configs/alfworld/default.yaml \
   --skill skillopt/skillopt/envs/alfworld/skills/initial.md \
@@ -55,4 +58,3 @@ Replace `react.py` with one of:
 
 All ordinary arguments are passed unchanged to SkillOpt's official
 `scripts/eval_only.py` entry point.
-

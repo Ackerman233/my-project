@@ -7,6 +7,7 @@ name = "dynamic-skill-mvp"
 version = "0.1.0"
 description = "Training-free dynamic skill execution prototype for SkillOpt ALFWorld"
 requires-python = ">=3.10"
+dependencies = ["omegaconf>=2.3.0"]
 
 [tool.setuptools.packages.find]
 include = ["dynamic_skill*", "experiments*"]
