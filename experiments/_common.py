@@ -39,7 +39,12 @@ def run(mode: str) -> None:
 
     sys.path.insert(0, str(PROJECT_ROOT))
     sys.path.insert(0, str(SKILLOPT_ROOT))
-    if mode != "react":
+    if mode == "react":
+        from dynamic_skill.react_metrics import run_instrumented_react_batch
+        from skillopt.envs.alfworld import adapter as adapter_module
+
+        adapter_module.run_alfworld_batch = run_instrumented_react_batch
+    else:
         from dynamic_skill.alfworld_rollout import run_dynamic_alfworld_batch
         from skillopt.envs.alfworld import adapter as adapter_module
 
