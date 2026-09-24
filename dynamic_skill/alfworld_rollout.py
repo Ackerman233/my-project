@@ -4,6 +4,7 @@ import concurrent.futures
 import json
 import os
 import re
+import time
 from typing import Any
 
 from skillopt.model import chat_target
@@ -60,8 +61,20 @@ def run_dynamic_alfworld_batch(
     env_dones = [False] * env_num
     successes = [False] * env_num
     conversations: list[list[dict[str, Any]]] = [[] for _ in range(env_num)]
+    model_metrics: list[dict[str, Any]] = [
+        {
+            "calls": 0,
+            "latencies": [],
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+            "total_tokens": 0,
+            "errors": 0,
+        }
+        for _ in range(env_num)
+    ]
     controllers = [ChunkExecutor(chunk_size=fixed_chunk_size, dynamic=dynamic) for _ in range(env_num)]
     metadata: list[dict[str, str]] = []
+    rollout_started = time.perf_counter()
 
     for index in range(env_num):
         info = infos[index] if isinstance(infos[index], dict) else {}
@@ -93,9 +106,10 @@ def run_dynamic_alfworld_batch(
 
         responses = ["None"] * env_num
 
-        def call_model(index: int) -> tuple[int, str]:
+        def call_model(index: int) -> tuple[int, str, dict[str, int], float, bool]:
+            started = time.perf_counter()
             try:
-                response, _ = chat_target(
+                response, usage = chat_target(
                     system="You are an expert agent operating in the ALFRED Embodied Environment.",
                     user=prompts[index],
                     max_completion_tokens=max_completion_tokens,
@@ -106,15 +120,33 @@ def run_dynamic_alfworld_batch(
                 response = (response or "").strip()
                 if not response or _extract(response, "action") is None:
                     response = "<think>missing usable action</think><action>look</action>"
-                return index, response
+                normalized_usage = {
+                    "prompt_tokens": int((usage or {}).get("prompt_tokens", 0) or 0),
+                    "completion_tokens": int((usage or {}).get("completion_tokens", 0) or 0),
+                    "total_tokens": int((usage or {}).get("total_tokens", 0) or 0),
+                }
+                return index, response, normalized_usage, time.perf_counter() - started, False
             except Exception as exc:  # noqa: BLE001
-                return index, f"<think>model error: {type(exc).__name__}</think><action>look</action>"
+                return (
+                    index,
+                    f"<think>model error: {type(exc).__name__}</think><action>look</action>",
+                    {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+                    time.perf_counter() - started,
+                    True,
+                )
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=max(1, max_api_workers)) as pool:
             futures = [pool.submit(call_model, index) for index in active]
             for future in concurrent.futures.as_completed(futures):
-                index, response = future.result()
+                index, response, usage, latency, had_error = future.result()
                 responses[index] = response
+                metric = model_metrics[index]
+                metric["calls"] += 1
+                metric["latencies"].append(latency)
+                metric["prompt_tokens"] += usage["prompt_tokens"]
+                metric["completion_tokens"] += usage["completion_tokens"]
+                metric["total_tokens"] += usage["total_tokens"]
+                metric["errors"] += int(had_error)
 
         previous_responses = {index: responses[index] for index in active}
         obs, rewards, dones, infos = env_manager.step(responses)
@@ -146,6 +178,7 @@ def run_dynamic_alfworld_batch(
                     "controller_decision": event.decision.kind.value,
                     "plan_revision": event.plan_revision,
                     "interrupt_count": event.interruption_count,
+                    "model_latency_seconds": model_metrics[index]["latencies"][-1],
                 }
             )
             if dones[index]:
@@ -165,6 +198,8 @@ def run_dynamic_alfworld_batch(
         if not won:
             fail_reason = "Episode ended without completing the task" if env_dones[index] else f"Timeout after {max_steps} steps"
         controller = controllers[index]
+        metric = model_metrics[index]
+        latency_total = float(sum(metric["latencies"]))
         result = {
             "id": task_id,
             "hard": int(won),
@@ -179,6 +214,14 @@ def run_dynamic_alfworld_batch(
             "controller_mode": mode,
             "interrupt_count": controller.interruption_count,
             "plan_revisions": controller.plan.revision if controller.plan else 0,
+            "model_calls": metric["calls"],
+            "model_errors": metric["errors"],
+            "model_latency_total_seconds": round(latency_total, 4),
+            "model_latency_mean_seconds": round(latency_total / metric["calls"], 4) if metric["calls"] else 0.0,
+            "prompt_tokens": metric["prompt_tokens"],
+            "completion_tokens": metric["completion_tokens"],
+            "total_tokens": metric["total_tokens"],
+            "estimated_cost_usd": None,
         }
         results.append(result)
         if prediction_root:
@@ -196,5 +239,22 @@ def run_dynamic_alfworld_batch(
         with open(path, "a", encoding="utf-8") as handle:
             for row in evolution_rows:
                 handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+    if out_root:
+        all_latencies = [latency for metric in model_metrics for latency in metric["latencies"]]
+        aggregate = {
+            "controller_mode": mode,
+            "episodes": env_num,
+            "model_calls": sum(metric["calls"] for metric in model_metrics),
+            "model_errors": sum(metric["errors"] for metric in model_metrics),
+            "model_latency_total_seconds": round(sum(all_latencies), 4),
+            "model_latency_mean_seconds": round(sum(all_latencies) / len(all_latencies), 4) if all_latencies else 0.0,
+            "rollout_wall_seconds": round(time.perf_counter() - rollout_started, 4),
+            "prompt_tokens": sum(metric["prompt_tokens"] for metric in model_metrics),
+            "completion_tokens": sum(metric["completion_tokens"] for metric in model_metrics),
+            "total_tokens": sum(metric["total_tokens"] for metric in model_metrics),
+            "estimated_cost_usd": None,
+            "cost_note": "Inferera unit prices were not supplied; calculate from recorded token counts.",
+        }
+        with open(os.path.join(out_root, "metrics.json"), "w", encoding="utf-8") as handle:
+            json.dump(aggregate, handle, ensure_ascii=False, indent=2)
     return results
-

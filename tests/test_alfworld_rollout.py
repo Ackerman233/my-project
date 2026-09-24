@@ -46,4 +46,6 @@ def test_dynamic_rollout_preserves_skillopt_result_shape(monkeypatch, tmp_path) 
     )
     assert conversation[0]["checker_status"] == "success"
     assert conversation[0]["controller_decision"] == "stop_success"
-
+    metrics = json.loads((tmp_path / "metrics.json").read_text())
+    assert metrics["model_calls"] == 1
+    assert metrics["model_errors"] == 0
