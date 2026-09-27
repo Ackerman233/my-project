@@ -78,7 +78,7 @@ class ObservationChecker:
         actions = [self.normalize(item) for item in action_history]
         if len(actions) >= 2 and act and actions[-1] == act and actions[-2] == act:
             return CheckResult(CheckStatus.ACTION_LOOP, "same action selected three times", True, ("aaa_loop",))
-        if len(actions) >= 3 and act and actions[-1] == actions[-3] == act and actions[-2] != act:
+        if len(actions) >= 3 and act and actions[-2] == act and actions[-1] == actions[-3] != act:
             return CheckResult(CheckStatus.ACTION_LOOP, "alternating two-action loop detected", True, ("abab_loop",))
 
         observations = [self.normalize(item) for item in observation_history]
@@ -90,4 +90,3 @@ class ObservationChecker:
         if progress or reward > 0:
             return CheckResult(CheckStatus.PROGRESS, "progress signal observed", signals=progress or ("positive_reward",))
         return CheckResult(CheckStatus.OK, "no anomaly detected")
-

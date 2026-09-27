@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import argparse
-from functools import partial
+import json
 import os
 from pathlib import Path
 import sys
+import time
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -45,14 +46,26 @@ def run(mode: str) -> None:
 
         adapter_module.run_alfworld_batch = run_instrumented_react_batch
     else:
-        from dynamic_skill.alfworld_rollout import run_dynamic_alfworld_batch
+        from dynamic_skill.alfworld_rollout import run_dynamic_alfworld_batch, summarize_results
         from skillopt.envs.alfworld import adapter as adapter_module
 
-        adapter_module.run_alfworld_batch = partial(
-            run_dynamic_alfworld_batch,
-            mode=mode,
-            fixed_chunk_size=custom.chunk_size,
-        )
+        collected: dict[str, dict] = {}
+
+        def measured_batch(*args, **kwargs):
+            started = time.perf_counter()
+            rows = run_dynamic_alfworld_batch(*args, **kwargs, mode=mode, fixed_chunk_size=custom.chunk_size)
+            output = str(kwargs.get("out_root") or "")
+            bucket = collected.setdefault(output, {"rows": [], "wall": 0.0})
+            bucket["rows"].extend(rows)
+            bucket["wall"] += time.perf_counter() - started
+            if output:
+                (Path(output) / "metrics.json").write_text(
+                    json.dumps(summarize_results(bucket["rows"], mode, bucket["wall"]), indent=2) + "\n",
+                    encoding="utf-8",
+                )
+            return rows
+
+        adapter_module.run_alfworld_batch = measured_batch
 
     from scripts import eval_only
 

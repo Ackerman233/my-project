@@ -41,9 +41,6 @@ class Interrupter:
             if interruption_count >= self.max_interrupts:
                 return Decision(DecisionType.STOP_FAILURE, "interrupt budget exhausted")
             return Decision(DecisionType.REPLAN, check.reason)
-        if step_completed:
-            return Decision(DecisionType.ADVANCE, "active chunk completion signal observed")
         if chunk_exhausted:
-            return Decision(DecisionType.REPLAN, "chunk action budget exhausted")
+            return Decision(DecisionType.ADVANCE, "action queue exhausted normally")
         return Decision(DecisionType.CONTINUE, check.reason)
-
