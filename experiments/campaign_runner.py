@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--rung', type=int, required=True)
     parser.add_argument('--benchmark', choices=['rush_hour', 'sudoku'])
     parser.add_argument('--prompt-variant', choices=['baseline', 'neutral_rush_v1'], default='baseline')
+    parser.add_argument('--controller-variant', choices=['strict', 'noop_tail_v1'], default='strict')
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--chunk-size', type=int, default=4)
     parser.add_argument('--max-steps', type=int, default=24)
@@ -46,6 +47,7 @@ def main():
         settings = Settings(chunk_size=args.chunk_size, max_steps=args.max_steps, max_calls=args.max_calls,
                             max_tokens=512, request_timeout=45, episode_seconds=300, action_only=True,
                             prompt_variant=args.prompt_variant,
+                            controller_variant=args.controller_variant,
                             input_usd_per_million=0.0564, output_usd_per_million=0.4512)
         jobs = [(task, mode) for task in tasks for mode in args.modes]
         random.Random(20260927 + args.rung).shuffle(jobs)

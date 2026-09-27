@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, asdict
 import hashlib
@@ -19,6 +20,7 @@ from dynamic_skill.puzzles import PuzzleChecker, make_environment
 from dynamic_skill.skill_executor import ChunkExecutor
 from dynamic_skill.thinking_policy import non_thinking_body
 from dynamic_skill.campaign_budget import CampaignHalt
+from dynamic_skill.tail_filter import filter_tail, TailFilterInterrupter
 
 
 @dataclass
@@ -36,6 +38,7 @@ class Settings:
     output_usd_per_million: float | None = None
     action_only: bool = False
     prompt_variant: str = "baseline"
+    controller_variant: str = "strict"
 
 
 def task_rules(env, settings):
@@ -95,9 +98,14 @@ class ApiPlanner:
 
 
 def run_episode(task, mode, settings, output, planner):
+    if settings.controller_variant not in ('strict', 'noop_tail_v1'):
+        raise ValueError('Unknown controller variant')
     env = make_environment(task)
     k = 1 if mode == "react" else settings.chunk_size
     controller = ChunkExecutor(chunk_size=k, dynamic=mode == "dynamic_interrupt", checker=PuzzleChecker())
+    if settings.controller_variant == 'noop_tail_v1' and mode == 'dynamic_interrupt':
+        controller.interrupter = TailFilterInterrupter()
+    source_indices = deque()
     controller.start(env.render(), task=env.rules)
     calls, trajectory = [], []
     started = time.perf_counter()
@@ -165,14 +173,32 @@ def run_episode(task, mode, settings, output, planner):
                 status = record["status"]
                 break
             controller.load_chunk(record["actions"])
+            source_indices = deque(range(len(record['actions'])))
         action = controller.next_action()
+        source_index = source_indices.popleft()
+        before_action = env.render()
         result = env.step(action)
+        filter_record = None
+        if (settings.controller_variant == 'noop_tail_v1' and mode == 'dynamic_interrupt'
+                and not result.valid and controller.pending_actions and not result.won):
+            old_tail = list(controller.pending_actions)
+            old_indices = list(source_indices)
+            filtered = filter_tail(env, old_tail, failed_valid=result.valid,
+                                   before_failed=before_action, max_checks=k,
+                                   recent_states=controller.observation_history[-4:])
+            filter_record = {**asdict(filtered), 'input_actions': old_tail,
+                             'input_source_indices': old_indices}
+            if filtered.decision == 'continue':
+                controller.pending_actions = deque(filtered.retained)
+                source_indices = deque(old_indices[i] for i in filtered.retained_indices)
+                controller.interrupter.validated_once = True
         event = controller.observe(action, result.observation, reward=float(result.won), done=result.won,
                                    info={"valid": result.valid, "reason": result.reason, "won": result.won})
         row = {"step": step_index, "action": action, "valid": result.valid, "feedback": result.reason,
                "board_after": result.observation, "won": result.won, "model_called": called_now,
                "model_call_id": len(calls), "chunk_id": controller.chunk_id,
                "chunk_action_index": controller.actions_in_chunk - 1,
+               "source_action_index": source_index, "tail_filter": filter_record,
                "remaining_actions": list(controller.pending_actions),
                "discarded_actions": list(event.discarded_actions),
                "checker_status": event.check.status.value, "checker_reason": event.check.reason,
@@ -193,6 +219,10 @@ def run_episode(task, mode, settings, output, planner):
     if not usage_missing and settings.input_usd_per_million is not None and settings.output_usd_per_million is not None:
         cost = (usage["prompt_tokens"] * settings.input_usd_per_million + usage["completion_tokens"] * settings.output_usd_per_million) / 1e6
     result = {"id": episode_id, "task_id": task["id"], "benchmark": task["benchmark"], "mode": mode,
+              "controller_variant": settings.controller_variant,
+              "filter_events": sum(row['tail_filter'] is not None for row in trajectory),
+              "filter_checks": sum((row['tail_filter'] or {}).get('checks', 0) for row in trajectory),
+              "filter_seconds": sum((row['tail_filter'] or {}).get('seconds', 0) for row in trajectory),
               "status": status, "success": status == "success", "minimum_actions": task["minimum_actions"],
               "environment_steps": len(trajectory), "model_calls": len(calls),
               "model_errors": sum(c["status"] == "api_error" for c in calls),

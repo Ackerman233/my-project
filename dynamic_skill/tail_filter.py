@@ -8,6 +8,21 @@ from dataclasses import dataclass
 from time import perf_counter
 
 from .puzzles import RushHourEnv, SudokuEnv
+from .interrupter import Interrupter, Decision, DecisionType
+from .checker import CheckStatus
+
+
+class TailFilterInterrupter(Interrupter):
+    """One-observation override, armed only after external tail validation."""
+    validated_once = False
+
+    def decide(self, check, **kwargs):
+        validated = self.validated_once
+        self.validated_once = False
+        if (validated and kwargs['dynamic'] and not kwargs['chunk_exhausted']
+                and check.status is CheckStatus.INVALID_ACTION):
+            return Decision(DecisionType.CONTINUE, 'continue independently validated filtered tail')
+        return super().decide(check, **kwargs)
 
 
 @dataclass(frozen=True)
