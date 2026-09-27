@@ -123,3 +123,12 @@ ALFWORLD_DATA=/opt/data/private/data/alfworld RUN_ALFWORLD_INTEGRATION=1 \
 These inject a rejected action and verify that fixed mode executes the queued
 tail while dynamic mode discards it, then both finish the real ALFWorld task.
 They validate execution mechanics, not model performance.
+
+## Rush Hour and Sudoku pilot
+
+See [experiments/PUZZLE_PILOT.md](experiments/PUZZLE_PILOT.md) for the verified
+four-task dataset and paired React / fixed chunk / dynamic interrupt runner.
+It reuses this project's action queue without modifying official SkillOpt.
+Offline solvers only validate tasks; the runtime checker has no solution access.
+The initial 2026-09-27 API attempt was timeout-censored, not a usable performance
+comparison. Calls, latency, partial usage and full action traces are retained.

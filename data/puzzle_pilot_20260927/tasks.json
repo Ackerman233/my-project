@@ -1,0 +1,244 @@
+[
+  {
+    "id": "sudoku-L7-6502026",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        1,
+        8,
+        5,
+        0,
+        4,
+        2,
+        0,
+        0,
+        9
+      ],
+      [
+        3,
+        2,
+        0,
+        9,
+        7,
+        0,
+        8,
+        5,
+        0
+      ],
+      [
+        0,
+        0,
+        7,
+        0,
+        5,
+        8,
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        5,
+        3,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        4,
+        0,
+        0,
+        0,
+        7,
+        5,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        4,
+        9,
+        0
+      ],
+      [
+        0,
+        9,
+        6,
+        0,
+        8,
+        0,
+        3,
+        2,
+        0
+      ],
+      [
+        5,
+        0,
+        0,
+        4,
+        6,
+        0,
+        1,
+        8,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        3,
+        9,
+        0,
+        4
+      ]
+    ],
+    "minimum_actions": 41,
+    "horizon_definition": "one initially empty cell filled per set action",
+    "source": "/opt/data/private/src/ontraining-long-horizon/data/sudoku_paper_scale.jsonl",
+    "source_id": "L7-6502026",
+    "unique_solution_verified": true
+  },
+  {
+    "id": "sudoku-L7-6502031",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        7,
+        5,
+        0,
+        6,
+        0,
+        9,
+        2,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        8,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        3,
+        0,
+        2,
+        4,
+        8,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        7,
+        5,
+        0,
+        6,
+        9,
+        0
+      ],
+      [
+        0,
+        7,
+        5,
+        9,
+        0,
+        0,
+        0,
+        0,
+        8
+      ],
+      [
+        2,
+        9,
+        6,
+        4,
+        0,
+        0,
+        5,
+        7,
+        0
+      ],
+      [
+        0,
+        8,
+        0,
+        3,
+        0,
+        6,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        9,
+        1,
+        4,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        4,
+        5,
+        0,
+        3,
+        6
+      ]
+    ],
+    "minimum_actions": 41,
+    "horizon_definition": "one initially empty cell filled per set action",
+    "source": "/opt/data/private/src/ontraining-long-horizon/data/sudoku_paper_scale.jsonl",
+    "source_id": "L7-6502031",
+    "unique_solution_verified": true
+  },
+  {
+    "id": "rush-hour-20-0",
+    "benchmark": "rush_hour",
+    "board": "G.IKBBG.IKLMGAA.LM.HCCCM.HJDD.EEJFF.",
+    "minimum_actions": 20,
+    "horizon_definition": "one legal vehicle slide of any distance",
+    "source": "https://www.michaelfogleman.com/rush/",
+    "source_board": "GBBoLoGHIoLMGHIAAMCCCKoMooJKDDEEJFFo",
+    "source_minimum_moves": 51,
+    "derivation": "state after 31 moves along an offline shortest path"
+  },
+  {
+    "id": "rush-hour-25-1",
+    "benchmark": "rush_hour",
+    "board": "GH.BBBGHI..L..IAALCC.DDL..JKEE..JKFF",
+    "minimum_actions": 25,
+    "horizon_definition": "one legal vehicle slide of any distance",
+    "source": "https://www.michaelfogleman.com/rush/",
+    "source_board": "ooIBBBooIKooAAJKoLCCJDDLGHEEoLGHFFoo",
+    "source_minimum_moves": 50,
+    "derivation": "state after 25 moves along an offline shortest path"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "source_sudoku_sha256": "6f2d88cf8200bdcbbf2b9dd327314c1e7b91bb86828eb80181118c1f8d4f5db8",
+  "tasks_sha256": "7988186a28fd26d35a98845ae153e60f272906f1a1e2724d4e7eca1b34e06899",
+  "note": "Pilot only: local synthetic Sudoku, derived public Rush Hour. Not official paper benchmark replication.",
+  "validation_answers_visible_to_agent": false,
+  "tasks": [
+    {
+      "id": "sudoku-L7-6502026",
+      "benchmark": "sudoku",
+      "minimum_actions": 41
+    },
+    {
+      "id": "sudoku-L7-6502031",
+      "benchmark": "sudoku",
+      "minimum_actions": 41
+    },
+    {
+      "id": "rush-hour-20-0",
+      "benchmark": "rush_hour",
+      "minimum_actions": 20
+    },
+    {
+      "id": "rush-hour-25-1",
+      "benchmark": "rush_hour",
+      "minimum_actions": 25
+    }
+  ]
+}
