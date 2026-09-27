@@ -7,6 +7,18 @@ from experiments.prepare_curriculum import prepare
 from dynamic_skill.puzzles import make_environment
 
 
+def test_neutral_prompt_changes_only_rearrangement_sentence():
+    from experiments.puzzle_pilot import task_rules
+    from dynamic_skill.puzzles import RushHourEnv, SudokuEnv
+    sentence = 'Plan the necessary rearrangements, not only moves that immediately advance A.'
+    assert sentence in RushHourEnv.rules
+    assert task_rules(RushHourEnv, Settings()) == RushHourEnv.rules
+    candidate = Settings(prompt_variant='neutral_rush_v1')
+    assert task_rules(RushHourEnv, candidate) == RushHourEnv.rules.replace(sentence, '').rstrip()
+    assert task_rules(SudokuEnv, candidate) == SudokuEnv.rules.rstrip()
+    assert RushHourEnv.rules.endswith(sentence)
+
+
 def test_reserve_settle_and_missing_usage_is_not_free(tmp_path):
     budget = CampaignBudget(tmp_path / 'budget.json', deadline=100, clock=lambda: 10)
     i = budget.reserve('ok')

@@ -18,6 +18,8 @@ def main():
     parser.add_argument('--campaign', type=Path, default=Path('results/autonomous_campaign_20260927'))
     parser.add_argument('--tasks', type=Path, default=Path('data/curriculum_20260927/tasks.json'))
     parser.add_argument('--rung', type=int, required=True)
+    parser.add_argument('--benchmark', choices=['rush_hour', 'sudoku'])
+    parser.add_argument('--prompt-variant', choices=['baseline', 'neutral_rush_v1'], default='baseline')
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--chunk-size', type=int, default=4)
     parser.add_argument('--max-steps', type=int, default=24)
@@ -36,11 +38,14 @@ def main():
         deadline = datetime(2026, 9, 27, 19, 1, tzinfo=timezone.utc).timestamp()
         budget = CampaignBudget(args.campaign / 'budget.json', deadline=deadline)
         tasks = [t for t in json.loads(args.tasks.read_text()) if t['rung'] == args.rung]
+        if args.benchmark:
+            tasks = [t for t in tasks if t['benchmark'] == args.benchmark]
         if not tasks or len(set(args.modes)) != len(args.modes):
             raise SystemExit('invalid rung or duplicate modes')
         args.out.mkdir(parents=True, exist_ok=False)
         settings = Settings(chunk_size=args.chunk_size, max_steps=args.max_steps, max_calls=args.max_calls,
                             max_tokens=512, request_timeout=45, episode_seconds=300, action_only=True,
+                            prompt_variant=args.prompt_variant,
                             input_usd_per_million=0.0564, output_usd_per_million=0.4512)
         jobs = [(task, mode) for task in tasks for mode in args.modes]
         random.Random(20260927 + args.rung).shuffle(jobs)

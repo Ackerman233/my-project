@@ -35,6 +35,15 @@ class Settings:
     input_usd_per_million: float | None = None
     output_usd_per_million: float | None = None
     action_only: bool = False
+    prompt_variant: str = "baseline"
+
+
+def task_rules(env, settings):
+    if settings.prompt_variant == "baseline":
+        return env.rules
+    if settings.prompt_variant == "neutral_rush_v1":
+        return env.rules.replace("Plan the necessary rearrangements, not only moves that immediately advance A.", "").rstrip()
+    raise ValueError("Unknown prompt variant")
 
 
 def planner_system_prompt(settings, action_limit=None):
@@ -113,7 +122,7 @@ def run_episode(task, mode, settings, output, planner):
                     break  # No request, no phantom model-call record.
             limit = min(k, settings.max_steps - step_index)
             history = [{key: row[key] for key in ("action", "valid", "feedback")} for row in trajectory[-8:]]
-            prompt = (env.rules + "\n\nCurrent board:\n" + env.render()
+            prompt = (task_rules(env, settings) + "\n\nCurrent board:\n" + env.render()
                       + "\nRecent executed actions and feedback:\n" + json.dumps(history)
                       + f"\nPlan 1 to {limit} actions in order. Use several actions when you can predict their effects. "
                       "They will execute one at a time without another model call between them. "
