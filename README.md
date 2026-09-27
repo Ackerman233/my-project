@@ -112,3 +112,14 @@ batches as well as concurrent episodes. React's existing instrumentation is unch
 Verification: `.venv/bin/python -m pytest -q`. Tests cover multi-action execution,
 queue cancellation, fixed-mode continuation after rejection, terminal stops,
 independent concurrent queues, step/interrupt limits and malformed model output.
+
+Real-environment integration checks (scripted model responses; no API requests):
+
+```bash
+ALFWORLD_DATA=/opt/data/private/data/alfworld RUN_ALFWORLD_INTEGRATION=1 \
+  .venv/bin/python -m pytest -q tests/test_alfworld_integration.py
+```
+
+These inject a rejected action and verify that fixed mode executes the queued
+tail while dynamic mode discards it, then both finish the real ALFWorld task.
+They validate execution mechanics, not model performance.
