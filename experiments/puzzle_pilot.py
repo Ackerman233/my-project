@@ -17,6 +17,7 @@ from dynamic_skill.alfworld_rollout import parse_action_chunk
 from dynamic_skill.interrupter import DecisionType
 from dynamic_skill.puzzles import PuzzleChecker, make_environment
 from dynamic_skill.skill_executor import ChunkExecutor
+from dynamic_skill.thinking_policy import non_thinking_body
 
 
 @dataclass
@@ -54,6 +55,7 @@ class ApiPlanner:
             messages=[{"role": "system", "content": "You solve puzzles by issuing concrete environment actions. Follow the requested action format."},
                       {"role": "user", "content": prompt}],
             temperature=self.settings.temperature, max_tokens=self.settings.max_tokens,
+            extra_body=non_thinking_body(),
         )
         choice = response.choices[0]
         usage = response.usage.model_dump() if response.usage else None
@@ -97,6 +99,7 @@ def run_episode(task, mode, settings, output, planner):
                 prompt += "\nPrevious anomaly: " + controller.last_replan_reason
             before = time.perf_counter()
             record = {"call_id": len(calls) + 1, "step": step_index, "prompt": prompt,
+                      "request_extra_body": non_thinking_body(),
                       "status": "pending", "actions": [], "response": "", "usage": None}
             calls.append(record)
             save(directory / "model_calls.json", calls)
@@ -229,6 +232,7 @@ def main():
     jobs = [(task, mode) for task in tasks for mode in args.modes]
     random.Random(20260927).shuffle(jobs)
     save(args.out / "config.json", {**asdict(settings), "tasks_sha256": hashlib.sha256(args.tasks.read_bytes()).hexdigest(),
+                                   "enable_thinking": False, "request_extra_body": non_thinking_body(),
                                    "episode_count": len(jobs), "workers": args.workers, "provider_retries": 0,
                                    "run_order": [[t["id"], m] for t, m in jobs], "planning_answers_hidden": True,
                                    "react_note": "Puzzle-specific one-action baseline, not the ALFWorld official prompt",

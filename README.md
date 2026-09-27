@@ -132,3 +132,26 @@ It reuses this project's action queue without modifying official SkillOpt.
 Offline solvers only validate tasks; the runtime checker has no solution access.
 The initial 2026-09-27 API attempt was timeout-censored, not a usable performance
 comparison. Calls, latency, partial usage and full action traces are retained.
+
+## Non-thinking policy (2026-09-27)
+
+All project experiment entry points now explicitly send `enable_thinking: false`
+in the top-level Qwen Chat Completions request JSON. This covers ALFWorld React,
+fixed chunk, dynamic interrupt/evolution and all Rush Hour/Sudoku modes. There
+is no enable-thinking CLI override. Conflicting `reasoning_effort` is removed;
+if a backend emits `chat_template_kwargs.enable_thinking`, that is false too.
+Official SkillOpt files are unchanged; project ALFWorld entry points install a
+temporary request-boundary hook for the duration of their run. Directly running
+`skillopt/scripts/eval_only.py` bypasses this project policy.
+
+ALFWorld writes `thinking_policy.jsonl` under an explicitly specified `--out_root`:
+request switch, response id, returned reasoning-token count and reasoning-content
+length. `thinking_returned` means the provider returned reasoning despite the
+switch; `not_reported` is unknown, not proof of zero reasoning. Puzzle runs save
+the switch in `config.json` and every `model_calls.json` row, along with returned
+usage and reasoning content. Existing runs are not rewritten. New non-thinking
+runs must use fresh output directories and must not be pooled with old runs.
+
+Offline HTTP-transport tests verify the actual outgoing JSON, not only config
+values. They do not establish that the remote gateway honors the switch; no
+paid run was made as part of this policy change.

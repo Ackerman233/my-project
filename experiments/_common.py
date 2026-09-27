@@ -70,6 +70,15 @@ def run(mode: str) -> None:
     from scripts import eval_only
 
     remaining = _absolute_cli_paths(remaining, Path.cwd())
+    from dynamic_skill.thinking_policy import non_thinking_requests
+    audit_path = None
+    for index, token in enumerate(remaining):
+        if token == "--out_root" and index + 1 < len(remaining):
+            audit_path = Path(remaining[index + 1]) / "thinking_policy.jsonl"
+        elif token.startswith("--out_root="):
+            audit_path = Path(token.split("=", 1)[1]).resolve() / "thinking_policy.jsonl"
     os.chdir(SKILLOPT_ROOT)
     sys.argv = [sys.argv[0], *remaining]
-    eval_only.main()
+    # Applied AFTER all upstream config resolution, at the actual send boundary.
+    with non_thinking_requests(audit_path):
+        eval_only.main()

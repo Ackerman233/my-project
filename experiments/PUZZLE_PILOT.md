@@ -31,6 +31,12 @@ samples, not a representative benchmark or an independent held-out paper dataset
 
 ## Controlled comparison
 
+**Current policy:** all three modes explicitly send top-level
+`enable_thinking: false`. This was added after the initial timeout-censored run
+below. The flag is recorded in run configuration and every model-call record.
+Actual provider compliance still needs an online check of reasoning content and
+token usage; missing usage is not proof that reasoning is disabled.
+
 - `react`: puzzle-specific one-action-per-call baseline (not the official ALFWorld prompt).
 - `fixed_chunk`: the same planner with up to four actions per call; consume the
   queue even when a nonterminal action is rejected.
