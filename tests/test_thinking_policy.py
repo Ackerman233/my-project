@@ -6,7 +6,7 @@ from openai import OpenAI
 from openai.resources.chat.completions import Completions
 
 from dynamic_skill.thinking_policy import non_thinking_body, non_thinking_requests
-from experiments.puzzle_pilot import ApiPlanner, Settings
+from experiments.puzzle_pilot import ApiPlanner, Settings, run_episode
 
 
 def payload():
@@ -95,3 +95,24 @@ def test_real_skillopt_request_builder_has_false_and_no_conflicting_effort():
     assert text == "OK" and usage["total_tokens"] == 2
     assert bodies[0]["enable_thinking"] is False
     assert "reasoning_effort" not in bodies[0]
+
+
+@pytest.mark.parametrize("mode", ["react", "fixed_chunk", "dynamic_interrupt"])
+def test_action_only_contract_is_shared_and_logged(tmp_path, mode):
+    task = {"id": "one_move", "benchmark": "rush_hour", "minimum_actions": 1,
+            "board": "......" "......" "AA...." "......" "......" "......"}
+    def planner(prompt):
+        assert "Keep reasoning brief" not in prompt
+        assert "No explanation or analysis" in prompt
+        if mode == "react":
+            assert "Use several actions" not in prompt
+            assert "exactly ONE action" in prompt
+            assert '["action", "action"]' not in prompt
+        return {"response": '<actions>["A+4"]</actions>', "usage": None}
+    result = run_episode(task, mode, Settings(action_only=True), tmp_path, planner)
+    assert result["success"]
+    records = json.loads((tmp_path / "predictions" / ("one_move__" + mode) / "model_calls.json").read_text())
+    assert "Output ONLY" in records[0]["system_prompt"]
+    if mode == "react":
+        assert "exactly ONE" in records[0]["system_prompt"]
+    assert records[0]["request_extra_body"]["enable_thinking"] is False

@@ -37,6 +37,12 @@ below. The flag is recorded in run configuration and every model-call record.
 Actual provider compliance still needs an online check of reasoning content and
 token usage; missing usage is not proof that reasoning is disabled.
 
+Use `--action-only` for the non-thinking pilot: a common system instruction
+requires only the action array, with no explanatory prose. The original prompt
+variant remains available without this switch for reproducibility. React uses
+an explicit single-command contract and one-element example; it must not be
+told to "use several actions". Full system and user prompts are logged per call.
+
 - `react`: puzzle-specific one-action-per-call baseline (not the official ALFWorld prompt).
 - `fixed_chunk`: the same planner with up to four actions per call; consume the
   queue even when a nonterminal action is rejected.
@@ -81,7 +87,7 @@ From `/opt/data/private/src/my-project`:
 .venv/bin/python experiments/puzzle_pilot.py \
   --tasks data/puzzle_pilot_20260927/tasks.json \
   --out results/puzzle_pilot_NEW_RUN \
-  --model qwen3.5-35b-a3b --chunk-size 4 --workers 4
+  --model qwen3.5-35b-a3b --chunk-size 4 --workers 4 --action-only
 ```
 
 Preparation and evaluation refuse to overwrite existing outputs. Skip preparation

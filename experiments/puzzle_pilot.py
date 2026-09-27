@@ -33,6 +33,21 @@ class Settings:
     episode_seconds: float = 1200.0
     input_usd_per_million: float | None = None
     output_usd_per_million: float | None = None
+    action_only: bool = False
+
+
+def planner_system_prompt(settings, action_limit=None):
+    if settings.action_only:
+        if action_limit == 1:
+            return ('You control a puzzle environment. Output ONLY <actions>["action"]</actions>. '
+                    'The array must contain exactly ONE concrete legal environment command, not a description. '
+                    'Do not output analysis, reasoning, explanations, markdown, or any text outside the actions tags. '
+                    'Never include a second action. Do not try to narrate a full solution.')
+        return ('You control a puzzle environment. Output ONLY <actions>["action", "action"]</actions>. '
+                'The array must contain concrete legal environment commands, not descriptions. '
+                'Do not output analysis, reasoning, explanations, markdown, or any text outside the actions tags. '
+                'Respect the requested maximum number of actions. Do not try to narrate a full solution.')
+    return "You solve puzzles by issuing concrete environment actions. Follow the requested action format."
 
 
 def save(path, data):
@@ -43,16 +58,17 @@ def save(path, data):
 
 
 class ApiPlanner:
-    def __init__(self, settings):
+    def __init__(self, settings, action_limit=None):
         from openai import OpenAI
         self.client = OpenAI(base_url=settings.base_url, api_key=os.environ["TARGET_AZURE_OPENAI_API_KEY"],
                              timeout=settings.request_timeout, max_retries=0)
         self.settings = settings
+        self.action_limit = action_limit
 
     def __call__(self, prompt):
         response = self.client.chat.completions.create(
             model=self.settings.model,
-            messages=[{"role": "system", "content": "You solve puzzles by issuing concrete environment actions. Follow the requested action format."},
+            messages=[{"role": "system", "content": planner_system_prompt(self.settings, self.action_limit)},
                       {"role": "user", "content": prompt}],
             temperature=self.settings.temperature, max_tokens=self.settings.max_tokens,
             extra_body=non_thinking_body(),
@@ -97,8 +113,16 @@ def run_episode(task, mode, settings, output, planner):
                       'Return <actions>["action", "action"]</actions> containing a JSON string array. ')
             if controller.last_replan_reason:
                 prompt += "\nPrevious anomaly: " + controller.last_replan_reason
+            if settings.action_only:
+                prompt = prompt.replace("Keep reasoning brief. ", "")
+                prompt += "\nOutput only the actions tags and JSON array. No explanation or analysis."
+            if limit == 1:
+                prompt = prompt.replace("Use several actions when you can predict their effects. ",
+                                        "Return exactly ONE action; never include a second action. ")
+                prompt = prompt.replace('["action", "action"]', '["action"]')
             before = time.perf_counter()
             record = {"call_id": len(calls) + 1, "step": step_index, "prompt": prompt,
+                      "system_prompt": planner_system_prompt(settings, k),
                       "request_extra_body": non_thinking_body(),
                       "status": "pending", "actions": [], "response": "", "usage": None}
             calls.append(record)
@@ -207,6 +231,7 @@ def main():
     parser.add_argument("--max-steps", type=int, default=90)
     parser.add_argument("--max-calls", type=int, default=64)
     parser.add_argument("--chunk-size", type=int, default=4)
+    parser.add_argument("--action-only", action="store_true", help="Require actions only, without prose (recorded prompt variant)")
     parser.add_argument("--modes", nargs="+", choices=["react", "fixed_chunk", "dynamic_interrupt"],
                         default=["react", "fixed_chunk", "dynamic_interrupt"])
     parser.add_argument("--input-price", type=float)
@@ -228,6 +253,7 @@ def main():
     settings = Settings(model=args.model, base_url=args.base_url, request_timeout=args.request_timeout,
                         episode_seconds=args.episode_seconds, max_tokens=args.max_tokens, max_steps=args.max_steps,
                         max_calls=args.max_calls, chunk_size=args.chunk_size,
+                        action_only=args.action_only,
                         input_usd_per_million=args.input_price, output_usd_per_million=args.output_price)
     jobs = [(task, mode) for task in tasks for mode in args.modes]
     random.Random(20260927).shuffle(jobs)
@@ -240,7 +266,7 @@ def main():
     rows = []
 
     def run(job):
-        planner = ApiPlanner(settings)
+        planner = ApiPlanner(settings, action_limit=1 if job[1] == "react" else settings.chunk_size)
         try:
             return run_episode(*job, settings, args.out, planner)
         finally:
