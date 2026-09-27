@@ -18,6 +18,7 @@ from dynamic_skill.interrupter import DecisionType
 from dynamic_skill.puzzles import PuzzleChecker, make_environment
 from dynamic_skill.skill_executor import ChunkExecutor
 from dynamic_skill.thinking_policy import non_thinking_body
+from dynamic_skill.campaign_budget import CampaignHalt
 
 
 @dataclass
@@ -76,6 +77,7 @@ class ApiPlanner:
         choice = response.choices[0]
         usage = response.usage.model_dump() if response.usage else None
         return {"response": choice.message.content or "", "usage": usage,
+                "response_id": getattr(response, "id", None),
                 "finish_reason": choice.finish_reason, "provider_model": response.model,
                 "reasoning_content": getattr(choice.message, "reasoning_content", None)}
 
@@ -103,6 +105,12 @@ def run_episode(task, mode, settings, output, planner):
             if len(calls) >= settings.max_calls:
                 status = "model_call_limit"
                 break
+            if hasattr(planner, "before_call"):
+                try:
+                    planner.before_call()
+                except CampaignHalt as halt:
+                    status = halt.status
+                    break  # No request, no phantom model-call record.
             limit = min(k, settings.max_steps - step_index)
             history = [{key: row[key] for key in ("action", "valid", "feedback")} for row in trajectory[-8:]]
             prompt = (env.rules + "\n\nCurrent board:\n" + env.render()

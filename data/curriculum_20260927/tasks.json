@@ -1,0 +1,962 @@
+[
+  {
+    "id": "easy-sudoku-1-0",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        1,
+        8,
+        5,
+        3,
+        4,
+        2,
+        6,
+        7,
+        9
+      ],
+      [
+        3,
+        2,
+        4,
+        9,
+        7,
+        6,
+        8,
+        5,
+        1
+      ],
+      [
+        9,
+        6,
+        7,
+        1,
+        5,
+        8,
+        2,
+        4,
+        3
+      ],
+      [
+        8,
+        5,
+        3,
+        2,
+        9,
+        4,
+        7,
+        1,
+        6
+      ],
+      [
+        2,
+        4,
+        9,
+        6,
+        1,
+        7,
+        5,
+        3,
+        8
+      ],
+      [
+        6,
+        7,
+        1,
+        8,
+        3,
+        5,
+        4,
+        9,
+        2
+      ],
+      [
+        4,
+        9,
+        6,
+        7,
+        8,
+        1,
+        3,
+        2,
+        5
+      ],
+      [
+        5,
+        3,
+        2,
+        4,
+        6,
+        9,
+        1,
+        8,
+        7
+      ],
+      [
+        7,
+        0,
+        8,
+        5,
+        2,
+        3,
+        9,
+        6,
+        4
+      ]
+    ],
+    "minimum_actions": 1,
+    "rung": 0,
+    "split": "dev",
+    "source_id": "sudoku-L7-6502026",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-3-0",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        1,
+        8,
+        5,
+        3,
+        4,
+        2,
+        6,
+        7,
+        9
+      ],
+      [
+        3,
+        2,
+        4,
+        9,
+        7,
+        6,
+        8,
+        5,
+        1
+      ],
+      [
+        9,
+        6,
+        7,
+        1,
+        5,
+        8,
+        2,
+        4,
+        3
+      ],
+      [
+        8,
+        5,
+        3,
+        2,
+        9,
+        4,
+        7,
+        1,
+        6
+      ],
+      [
+        0,
+        4,
+        9,
+        6,
+        1,
+        7,
+        5,
+        3,
+        8
+      ],
+      [
+        6,
+        7,
+        1,
+        8,
+        3,
+        5,
+        4,
+        9,
+        2
+      ],
+      [
+        4,
+        9,
+        6,
+        7,
+        8,
+        1,
+        0,
+        2,
+        5
+      ],
+      [
+        5,
+        3,
+        2,
+        4,
+        6,
+        9,
+        1,
+        8,
+        7
+      ],
+      [
+        7,
+        0,
+        8,
+        5,
+        2,
+        3,
+        9,
+        6,
+        4
+      ]
+    ],
+    "minimum_actions": 3,
+    "rung": 1,
+    "split": "dev",
+    "source_id": "sudoku-L7-6502026",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-6-0",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        1,
+        8,
+        5,
+        3,
+        4,
+        2,
+        6,
+        7,
+        9
+      ],
+      [
+        3,
+        2,
+        4,
+        9,
+        7,
+        6,
+        8,
+        5,
+        1
+      ],
+      [
+        9,
+        6,
+        7,
+        1,
+        5,
+        8,
+        2,
+        4,
+        3
+      ],
+      [
+        8,
+        5,
+        3,
+        2,
+        9,
+        4,
+        7,
+        1,
+        6
+      ],
+      [
+        0,
+        4,
+        0,
+        6,
+        1,
+        7,
+        5,
+        3,
+        8
+      ],
+      [
+        6,
+        7,
+        0,
+        8,
+        3,
+        5,
+        4,
+        9,
+        2
+      ],
+      [
+        4,
+        9,
+        6,
+        7,
+        8,
+        1,
+        0,
+        2,
+        5
+      ],
+      [
+        5,
+        3,
+        2,
+        4,
+        6,
+        9,
+        1,
+        8,
+        7
+      ],
+      [
+        7,
+        0,
+        8,
+        5,
+        2,
+        3,
+        9,
+        0,
+        4
+      ]
+    ],
+    "minimum_actions": 6,
+    "rung": 2,
+    "split": "dev",
+    "source_id": "sudoku-L7-6502026",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-12-0",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        1,
+        8,
+        5,
+        3,
+        4,
+        2,
+        6,
+        7,
+        9
+      ],
+      [
+        3,
+        2,
+        4,
+        9,
+        7,
+        6,
+        8,
+        5,
+        1
+      ],
+      [
+        9,
+        6,
+        7,
+        1,
+        5,
+        8,
+        2,
+        4,
+        0
+      ],
+      [
+        8,
+        5,
+        0,
+        2,
+        9,
+        4,
+        7,
+        1,
+        6
+      ],
+      [
+        0,
+        4,
+        0,
+        6,
+        1,
+        7,
+        0,
+        0,
+        8
+      ],
+      [
+        6,
+        7,
+        0,
+        8,
+        3,
+        5,
+        4,
+        9,
+        2
+      ],
+      [
+        4,
+        9,
+        6,
+        7,
+        8,
+        1,
+        0,
+        0,
+        5
+      ],
+      [
+        5,
+        3,
+        2,
+        4,
+        6,
+        9,
+        1,
+        8,
+        7
+      ],
+      [
+        7,
+        0,
+        8,
+        5,
+        2,
+        0,
+        9,
+        0,
+        4
+      ]
+    ],
+    "minimum_actions": 12,
+    "rung": 3,
+    "split": "dev",
+    "source_id": "sudoku-L7-6502026",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-1-1",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        7,
+        5,
+        8,
+        6,
+        3,
+        9,
+        2,
+        1,
+        4
+      ],
+      [
+        4,
+        1,
+        2,
+        5,
+        8,
+        7,
+        3,
+        6,
+        9
+      ],
+      [
+        9,
+        6,
+        3,
+        1,
+        2,
+        4,
+        8,
+        5,
+        7
+      ],
+      [
+        8,
+        4,
+        1,
+        7,
+        5,
+        3,
+        6,
+        9,
+        2
+      ],
+      [
+        3,
+        7,
+        5,
+        9,
+        6,
+        2,
+        1,
+        4,
+        8
+      ],
+      [
+        2,
+        9,
+        6,
+        4,
+        1,
+        8,
+        5,
+        7,
+        3
+      ],
+      [
+        5,
+        8,
+        4,
+        3,
+        7,
+        6,
+        9,
+        2,
+        1
+      ],
+      [
+        6,
+        3,
+        7,
+        0,
+        9,
+        1,
+        4,
+        8,
+        5
+      ],
+      [
+        1,
+        2,
+        9,
+        8,
+        4,
+        5,
+        7,
+        3,
+        6
+      ]
+    ],
+    "minimum_actions": 1,
+    "rung": 0,
+    "split": "validation",
+    "source_id": "sudoku-L7-6502031",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-3-1",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        7,
+        5,
+        8,
+        6,
+        3,
+        9,
+        2,
+        1,
+        4
+      ],
+      [
+        4,
+        1,
+        2,
+        5,
+        8,
+        7,
+        3,
+        6,
+        9
+      ],
+      [
+        9,
+        6,
+        3,
+        1,
+        2,
+        4,
+        8,
+        5,
+        7
+      ],
+      [
+        8,
+        0,
+        1,
+        7,
+        5,
+        3,
+        6,
+        9,
+        2
+      ],
+      [
+        3,
+        7,
+        5,
+        9,
+        6,
+        2,
+        1,
+        4,
+        8
+      ],
+      [
+        2,
+        9,
+        0,
+        4,
+        1,
+        8,
+        5,
+        7,
+        3
+      ],
+      [
+        5,
+        8,
+        4,
+        3,
+        7,
+        6,
+        9,
+        2,
+        1
+      ],
+      [
+        6,
+        3,
+        7,
+        0,
+        9,
+        1,
+        4,
+        8,
+        5
+      ],
+      [
+        1,
+        2,
+        9,
+        8,
+        4,
+        5,
+        7,
+        3,
+        6
+      ]
+    ],
+    "minimum_actions": 3,
+    "rung": 1,
+    "split": "validation",
+    "source_id": "sudoku-L7-6502031",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-6-1",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        7,
+        5,
+        8,
+        6,
+        3,
+        9,
+        2,
+        1,
+        4
+      ],
+      [
+        0,
+        1,
+        2,
+        5,
+        8,
+        7,
+        3,
+        6,
+        9
+      ],
+      [
+        9,
+        6,
+        3,
+        1,
+        2,
+        4,
+        8,
+        5,
+        7
+      ],
+      [
+        8,
+        0,
+        1,
+        7,
+        5,
+        3,
+        6,
+        0,
+        2
+      ],
+      [
+        3,
+        7,
+        5,
+        9,
+        6,
+        2,
+        1,
+        4,
+        8
+      ],
+      [
+        2,
+        9,
+        0,
+        4,
+        1,
+        8,
+        5,
+        7,
+        3
+      ],
+      [
+        5,
+        8,
+        4,
+        3,
+        7,
+        6,
+        9,
+        2,
+        1
+      ],
+      [
+        6,
+        0,
+        7,
+        0,
+        9,
+        1,
+        4,
+        8,
+        5
+      ],
+      [
+        1,
+        2,
+        9,
+        8,
+        4,
+        5,
+        7,
+        3,
+        6
+      ]
+    ],
+    "minimum_actions": 6,
+    "rung": 2,
+    "split": "validation",
+    "source_id": "sudoku-L7-6502031",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-sudoku-12-1",
+    "benchmark": "sudoku",
+    "puzzle": [
+      [
+        7,
+        5,
+        8,
+        6,
+        3,
+        9,
+        2,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        2,
+        5,
+        8,
+        7,
+        3,
+        6,
+        9
+      ],
+      [
+        9,
+        6,
+        3,
+        1,
+        2,
+        4,
+        8,
+        5,
+        7
+      ],
+      [
+        8,
+        0,
+        0,
+        7,
+        5,
+        3,
+        6,
+        0,
+        2
+      ],
+      [
+        0,
+        7,
+        0,
+        9,
+        6,
+        2,
+        1,
+        4,
+        8
+      ],
+      [
+        2,
+        9,
+        0,
+        4,
+        1,
+        8,
+        5,
+        7,
+        3
+      ],
+      [
+        0,
+        8,
+        4,
+        3,
+        7,
+        6,
+        9,
+        2,
+        1
+      ],
+      [
+        6,
+        0,
+        7,
+        0,
+        9,
+        1,
+        4,
+        8,
+        0
+      ],
+      [
+        1,
+        2,
+        9,
+        8,
+        4,
+        5,
+        7,
+        3,
+        6
+      ]
+    ],
+    "minimum_actions": 12,
+    "rung": 3,
+    "split": "validation",
+    "source_id": "sudoku-L7-6502031",
+    "note": "Synthetic mask of verified solution; sanity test, not independent benchmark."
+  },
+  {
+    "id": "easy-rush-1-0",
+    "benchmark": "rush_hour",
+    "board": "BBIKL...IKL.GAA...GHCCCMGHJDDMEEJFFM",
+    "minimum_actions": 1,
+    "rung": 0,
+    "split": "dev",
+    "source_id": "rush-hour-20-0",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-2-0",
+    "benchmark": "rush_hour",
+    "board": "BBIKLM..IKLMGAA..MGHCCC.GHJDD.EEJFF.",
+    "minimum_actions": 2,
+    "rung": 1,
+    "split": "dev",
+    "source_id": "rush-hour-20-0",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-4-0",
+    "benchmark": "rush_hour",
+    "board": "BBI..M..IKLMGAAKLMGHCCC.GHJDD.EEJFF.",
+    "minimum_actions": 4,
+    "rung": 2,
+    "split": "dev",
+    "source_id": "rush-hour-20-0",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-8-0",
+    "benchmark": "rush_hour",
+    "board": "BBI..M..IKLM.AAKLMGHJCCCGHJDD.GEEFF.",
+    "minimum_actions": 8,
+    "rung": 3,
+    "split": "dev",
+    "source_id": "rush-hour-20-0",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-1-1",
+    "benchmark": "rush_hour",
+    "board": "GHIBBBGHI...AA....CCJDDLEEJK.L.FFK.L",
+    "minimum_actions": 1,
+    "rung": 0,
+    "split": "validation",
+    "source_id": "rush-hour-25-1",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-2-1",
+    "benchmark": "rush_hour",
+    "board": "GH.BBBGHI...AAI...CCJDDLEEJK.L.FFK.L",
+    "minimum_actions": 2,
+    "rung": 1,
+    "split": "validation",
+    "source_id": "rush-hour-25-1",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-4-1",
+    "benchmark": "rush_hour",
+    "board": "GHBBBLGHI..LAAI..LCCJDD.EEJK...FFK..",
+    "minimum_actions": 4,
+    "rung": 2,
+    "split": "validation",
+    "source_id": "rush-hour-25-1",
+    "note": "Derived intermediate state; shared graph across rungs."
+  },
+  {
+    "id": "easy-rush-8-1",
+    "benchmark": "rush_hour",
+    "board": "GHBBB.GHIK.LAAIK.LCCJDDLEEJ....FF...",
+    "minimum_actions": 8,
+    "rung": 3,
+    "split": "validation",
+    "source_id": "rush-hour-25-1",
+    "note": "Derived intermediate state; shared graph across rungs."
+  }
+]
