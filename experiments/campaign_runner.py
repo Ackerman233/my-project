@@ -79,4 +79,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if sys.argv[1:] == ['--gpt-recovery-diagnostic']:
+        from experiments.gpt_recovery_diagnostic import run
+        run()
+    else:
+        main()

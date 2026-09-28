@@ -11,12 +11,13 @@ class CampaignHalt(RuntimeError):
 
 
 class CampaignBudget:
-    def __init__(self, path, *, deadline, limit=5.0, clock=time.time):
+    def __init__(self, path, *, deadline, limit=5.0, clock=time.time,
+                 input_rate=1.0, output_rate=5.0, max_requests=600, max_unknown=4):
         self.path, self.clock = Path(path), clock
         if not self.path.exists():
             self.write({'limit_usd': limit, 'deadline_unix': deadline, 'reservation_usd': 0.5,
-                        'input_usd_per_million': 1.0, 'output_usd_per_million': 5.0,
-                        'max_requests': 600, 'max_unknown_requests': 4,
+                        'input_usd_per_million': input_rate, 'output_usd_per_million': output_rate,
+                        'max_requests': max_requests, 'max_unknown_requests': max_unknown,
                         'consecutive_errors': 0, 'cooldown_until': 0, 'policy_violation': False,
                         'requests': [], 'note': 'Conservative client ledger, not verified provider billing. Unknown usage retains reservation.'})
 
