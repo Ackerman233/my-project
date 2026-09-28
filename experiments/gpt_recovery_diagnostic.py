@@ -62,7 +62,31 @@ def evaluate(env, text, limit):
             'chunk_reaches_goal': probe.solved, 'steps': steps}
 
 
-def run():
+def authorize_single_retry(budget):
+    data = budget.read()
+    if len(data['requests']) != 2 or data['requests'][-1].get('error_type') != 'APIConnectionError':
+        raise RuntimeError('retry only valid for the recorded second connection error')
+    if data.get('retry_authorizations'):
+        raise RuntimeError('single retry authorization already consumed')
+    data['retry_authorizations'] = [{'at_unix': time.time(), 'retry_of_request_id': 2,
+        'reason': 'User explicitly requested retry with the same endpoint and key; same $5 total.',
+        'previous_max_unknown': data['max_unknown_requests'], 'previous_max_requests': data['max_requests']}]
+    data['max_unknown_requests'] = 2
+    data['max_requests'] = 3  # Exactly one additional request, not a restarted campaign.
+    budget.write(data)
+
+
+def error_chain(exc):
+    # Types/errno only: never serialize headers, tokens, URLs or response bodies.
+    rows, seen = [], set()
+    while exc is not None and id(exc) not in seen and len(rows) < 8:
+        seen.add(id(exc))
+        rows.append({'type': type(exc).__name__, 'errno': getattr(exc, 'errno', None)})
+        exc = exc.__cause__ or exc.__context__
+    return rows
+
+
+def run(retry=False):
     from openai import OpenAI
     ROOT.mkdir(parents=True, exist_ok=True)
     with (ROOT / 'run.lock').open('a') as lock:
@@ -70,12 +94,15 @@ def run():
         budget = CampaignBudget(ROOT / 'budget.json',
             deadline=datetime(2026, 9, 28, 3, 17, tzinfo=timezone.utc).timestamp(),
             input_rate=25, output_rate=150, max_requests=6, max_unknown=1)
-        out = ROOT / 'diagnostic'
+        out = ROOT / ('retry_1' if retry else 'diagnostic')
         out.mkdir(exist_ok=False)
         selected = list(cases())
+        if retry:
+            selected = [selected[1]]
+            authorize_single_retry(budget)
         save(out / 'config.json', {'request': request_options(), 'cases': [c for c, _ in selected],
              'budget': str(budget.path), 'price_note': '25/150 USD per million conservative reservation, not verified reseller billing.',
-             'kind': 'six seen frozen-state development probes, not online episode success'})
+             'kind': 'explicit one-request retry of connection error' if retry else 'six seen frozen-state development probes, not online episode success'})
         rows = []
         client = OpenAI(base_url='https://api.inferera.com/v1', api_key=os.environ['TARGET_AZURE_OPENAI_API_KEY'],
                         timeout=45, max_retries=0)
@@ -108,6 +135,7 @@ def run():
                     row['status'] = 'error'
                     row['error_type'] = type(exc).__name__
                     row['http_status'] = getattr(exc, 'status_code', None)
+                    row['error_chain'] = error_chain(exc)
                 row['latency_seconds'] = time.perf_counter() - start
                 if case['original_status'] == 'ok':
                     row['original_evaluation'] = evaluate(env, case['original_response'], case['limit'])
@@ -117,8 +145,8 @@ def run():
                     break
         finally:
             client.close()
-        save(out / 'summary.json', {'scheduled_probes': 6, 'attempted': len(rows),
+        save(out / 'summary.json', {'scheduled_probes': len(selected), 'attempted': len(rows),
              'ok': sum(r['status'] == 'ok' for r in rows),
              'valid_first': sum(r.get('evaluation', {}).get('first_action_valid', False) for r in rows),
              'goal_reached': sum(r.get('evaluation', {}).get('chunk_reaches_goal', False) for r in rows),
-             'finished': len(rows) == 6 and all(r['status'] == 'ok' for r in rows)})
+             'finished': len(rows) == len(selected) and all(r['status'] == 'ok' for r in rows)})

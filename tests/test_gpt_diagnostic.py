@@ -27,3 +27,21 @@ def test_probe_replay_is_isolated():
     env = make_environment({'benchmark': 'rush_hour', 'board': '......' '......' 'AA....' '......' '......' '......'})
     result = evaluate(env, '<actions>["A+4"]</actions>', 1)
     assert result['chunk_reaches_goal'] and result['first_action_valid'] and not env.solved
+
+
+def test_retry_authorization_preserves_cost_and_is_single_use(tmp_path):
+    from experiments.gpt_recovery_diagnostic import authorize_single_retry
+    budget = CampaignBudget(tmp_path / 'b.json', deadline=100, clock=lambda: 1, max_unknown=1)
+    budget.settle(budget.reserve('first'), {'usage': {'prompt_tokens': 1, 'completion_tokens': 1}})
+    APIConnectionError = type('APIConnectionError', (Exception,), {})
+    budget.settle(budget.reserve('failed'), error=APIConnectionError())
+    previous = budget.read()
+    authorize_single_retry(budget)
+    assert budget.read()['requests'] == previous['requests']
+    assert budget.read()['deadline_unix'] == previous['deadline_unix']
+    assert budget.read()['limit_usd'] == 5
+    with pytest.raises(RuntimeError):
+        authorize_single_retry(budget)
+    budget.settle(budget.reserve('retry'), {'usage': {'prompt_tokens': 1, 'completion_tokens': 1}})
+    with pytest.raises(CampaignHalt, match='request_cap_stop'):
+        budget.reserve('unauthorized extra request')
