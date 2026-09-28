@@ -79,7 +79,10 @@ def main():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:2] == ['--skill-evolution']:
+    if sys.argv[1:] == ['--gpt-rollout-batch']:
+        from experiments.gpt_rollout_batch import run
+        run()
+    elif sys.argv[1:2] == ['--skill-evolution']:
         from experiments.skill_evolution import main as evolution_main
         evolution_main(sys.argv[2:])
     elif sys.argv[1:] == ['--gpt-recovery-remaining']:
