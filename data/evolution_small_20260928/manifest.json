@@ -1,0 +1,11 @@
+{
+  "protocol": "small-evolution-v1",
+  "split_hash": "2c10ab03965cc0db4923dd1d75ab182660b6ec0677dfa9feff4bc3f4e454af83",
+  "counts": {
+    "train": 3,
+    "validation": 2,
+    "test": 2
+  },
+  "answers_visible_to_model": false,
+  "note": "New synthetic instances, not a representative benchmark. Distinct Rush vehicle counts; Sudoku isomorphism not exhaustively checked."
+}

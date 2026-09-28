@@ -231,12 +231,17 @@ def evolve(splits, initial, evaluator, proposer, output, generations=2):
             history.append({'generation': generation, 'accept': False, 'reason': 'need_success_and_failure_train_evidence'})
             save(output / 'history.json', history)
             break
-        prompt = proposal_prompt(current, evidence)
+        # A balanced, deterministic mini-batch keeps the first live pilot within
+        # its per-request reservation. Full evidence stays on disk for auditing.
+        reflection_evidence = [next(e for e in evidence if e['success']),
+                               next(e for e in evidence if not e['success'])]
+        save(folder / 'proposal_evidence.json', reflection_evidence)
+        prompt = proposal_prompt(current, reflection_evidence)
         save(folder / 'proposal_prompt.json', {'prompt': prompt})
         reply = proposer(prompt)
         save(folder / 'proposal_response.json', reply)
         try:
-            candidate = parse_candidate(reply['response'], current, evidence)
+            candidate = parse_candidate(reply['response'], current, reflection_evidence)
         except (ValueError, TypeError) as exc:
             history.append({'generation': generation, 'accept': False, 'reason': 'invalid_candidate', 'error_type': type(exc).__name__})
             save(output / 'history.json', history)
