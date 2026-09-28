@@ -86,7 +86,18 @@ def error_chain(exc):
     return rows
 
 
-def run(retry=False):
+def authorize_remaining_probes(budget):
+    data = budget.read()
+    if len(data['requests']) != 3 or data.get('continuation_authorizations'):
+        raise RuntimeError('remaining-probe authorization requires exactly three prior calls, once only')
+    data['continuation_authorizations'] = [{'at_unix': time.time(),
+        'reason': 'User requested next experiment; four previously unattempted frozen probes only.',
+        'previous_max_requests': data['max_requests'], 'additional_requests': 4}]
+    data['max_requests'] = 7
+    budget.write(data)  # Preserve costs, unknown threshold, deadline, cooldown and policy guards.
+
+
+def run(retry=False, remaining=False):
     from openai import OpenAI
     ROOT.mkdir(parents=True, exist_ok=True)
     with (ROOT / 'run.lock').open('a') as lock:
@@ -94,15 +105,20 @@ def run(retry=False):
         budget = CampaignBudget(ROOT / 'budget.json',
             deadline=datetime(2026, 9, 28, 3, 17, tzinfo=timezone.utc).timestamp(),
             input_rate=25, output_rate=150, max_requests=6, max_unknown=1)
-        out = ROOT / ('retry_1' if retry else 'diagnostic')
+        if retry and remaining:
+            raise ValueError('retry and remaining are mutually exclusive')
+        out = ROOT / ('remaining_1' if remaining else 'retry_1' if retry else 'diagnostic')
         out.mkdir(exist_ok=False)
         selected = list(cases())
         if retry:
             selected = [selected[1]]
             authorize_single_retry(budget)
+        if remaining:
+            selected = selected[2:]
+            authorize_remaining_probes(budget)
         save(out / 'config.json', {'request': request_options(), 'cases': [c for c, _ in selected],
              'budget': str(budget.path), 'price_note': '25/150 USD per million conservative reservation, not verified reseller billing.',
-             'kind': 'explicit one-request retry of connection error' if retry else 'six seen frozen-state development probes, not online episode success'})
+             'kind': 'four remaining frozen probes, protocol v2 separates output failures' if remaining else 'explicit one-request retry of connection error' if retry else 'six seen frozen-state development probes, not online episode success'})
         rows = []
         client = OpenAI(base_url='https://api.inferera.com/v1', api_key=os.environ['TARGET_AZURE_OPENAI_API_KEY'],
                         timeout=45, max_retries=0)
@@ -129,10 +145,11 @@ def run(retry=False):
                 save(out / 'calls.json', rows)
                 try:
                     row.update(planner(None))
+                    row['api_status'] = 'ok'
                     row['status'] = 'ok'
                     row['evaluation'] = evaluate(env, row['response'], case['limit'])
                 except Exception as exc:
-                    row['status'] = 'error'
+                    row['status'] = 'output_error' if row.get('api_status') == 'ok' and isinstance(exc, ValueError) else 'error'
                     row['error_type'] = type(exc).__name__
                     row['http_status'] = getattr(exc, 'status_code', None)
                     row['error_chain'] = error_chain(exc)
@@ -141,7 +158,8 @@ def run(retry=False):
                     row['original_evaluation'] = evaluate(env, case['original_response'], case['limit'])
                 save(out / 'calls.json', rows)
                 print(json.dumps({k:row.get(k) for k in ('id', 'status', 'evaluation', 'error_type', 'http_status', 'latency_seconds')}), flush=True)
-                if row['status'] != 'ok' or budget.read()['policy_violation']:
+                state = budget.read()
+                if (row['status'] != 'ok' and not (remaining and row['status'] == 'output_error')) or state['policy_violation'] or state['requests'][-1]['status'] != 'returned_usage':
                     break
         finally:
             client.close()

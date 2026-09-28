@@ -79,7 +79,10 @@ def main():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] == ['--gpt-recovery-retry-once']:
+    if sys.argv[1:] == ['--gpt-recovery-remaining']:
+        from experiments.gpt_recovery_diagnostic import run
+        run(remaining=True)
+    elif sys.argv[1:] == ['--gpt-recovery-retry-once']:
         from experiments.gpt_recovery_diagnostic import run
         run(retry=True)
     elif sys.argv[1:] == ['--gpt-recovery-diagnostic']:
