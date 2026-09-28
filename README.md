@@ -155,3 +155,9 @@ runs must use fresh output directories and must not be pooled with old runs.
 Offline HTTP-transport tests verify the actual outgoing JSON, not only config
 values. They do not establish that the remote gateway honors the switch; no
 paid run was made as part of this policy change.
+# 自动 skill 进化（2026-09-28 新增）
+
+Rush Hour／Sudoku 已新增“训练轨迹 → 候选 skill → 成对验证 → 接受/拒绝 → 与 ReAct 测试比较”的闭环。
+运行、预算保护与文件说明见 [SKILL_EVOLUTION.md](experiments/SKILL_EVOLUTION.md)。
+这是训练-free 文档和声明式中断规则搜索；尚未执行付费进化实验，不能把脚本集成测试当成模型效果。
+ALFWorld 的旧 `dynamic_evolution.py` 仍仅导出建议，不等于这个新闭环。

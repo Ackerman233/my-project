@@ -71,20 +71,23 @@ def save(path, data):
 
 
 class ApiPlanner:
-    def __init__(self, settings, action_limit=None):
+    def __init__(self, settings, action_limit=None, system_prompt=None):
         from openai import OpenAI
         self.client = OpenAI(base_url=settings.base_url, api_key=os.environ["TARGET_AZURE_OPENAI_API_KEY"],
                              timeout=settings.request_timeout, max_retries=0)
         self.settings = settings
         self.action_limit = action_limit
+        self.system_prompt = system_prompt
 
     def __call__(self, prompt):
+        options = ({'reasoning_effort': 'none', 'max_completion_tokens': self.settings.max_tokens}
+                   if self.settings.model == 'gpt-5.4' else
+                   {'max_tokens': self.settings.max_tokens, 'extra_body': non_thinking_body()})
         response = self.client.chat.completions.create(
             model=self.settings.model,
-            messages=[{"role": "system", "content": planner_system_prompt(self.settings, self.action_limit)},
+            messages=[{"role": "system", "content": self.system_prompt or planner_system_prompt(self.settings, self.action_limit)},
                       {"role": "user", "content": prompt}],
-            temperature=self.settings.temperature, max_tokens=self.settings.max_tokens,
-            extra_body=non_thinking_body(),
+            temperature=self.settings.temperature, **options,
         )
         choice = response.choices[0]
         usage = response.usage.model_dump() if response.usage else None
@@ -97,12 +100,17 @@ class ApiPlanner:
         self.client.close()
 
 
-def run_episode(task, mode, settings, output, planner):
+def run_episode(task, mode, settings, output, planner, *, skill=None):
     if settings.controller_variant not in ('strict', 'noop_tail_v1'):
         raise ValueError('Unknown controller variant')
     env = make_environment(task)
-    k = 1 if mode == "react" else settings.chunk_size
+    if skill is not None and (mode != 'dynamic_interrupt' or settings.controller_variant != 'strict'):
+        raise ValueError('learned skill requires dynamic mode and no competing tail-filter controller')
+    k = 1 if mode == "react" else skill.max_actions if skill else settings.chunk_size
     controller = ChunkExecutor(chunk_size=k, dynamic=mode == "dynamic_interrupt", checker=PuzzleChecker())
+    if skill is not None:
+        from dynamic_skill.evolution import LearnedInterrupter
+        controller.interrupter = LearnedInterrupter(skill)
     if settings.controller_variant == 'noop_tail_v1' and mode == 'dynamic_interrupt':
         controller.interrupter = TailFilterInterrupter()
     source_indices = deque()
@@ -138,6 +146,8 @@ def run_episode(task, mode, settings, output, planner):
                       'Return <actions>["action", "action"]</actions> containing a JSON string array. ')
             if controller.last_replan_reason:
                 prompt += "\nPrevious anomaly: " + controller.last_replan_reason
+            if skill is not None:
+                prompt += skill.guidance()
             if settings.action_only:
                 prompt = prompt.replace("Keep reasoning brief. ", "")
                 prompt += "\nOutput only the actions tags and JSON array. No explanation or analysis."
@@ -148,7 +158,9 @@ def run_episode(task, mode, settings, output, planner):
             before = time.perf_counter()
             record = {"call_id": len(calls) + 1, "step": step_index, "prompt": prompt,
                       "system_prompt": planner_system_prompt(settings, k),
-                      "request_extra_body": non_thinking_body(),
+                      "request_extra_body": {} if settings.model == 'gpt-5.4' else non_thinking_body(),
+                      "reasoning_effort": 'none' if settings.model == 'gpt-5.4' else None,
+                      "skill_hash": skill.hash if skill else None,
                       "status": "pending", "actions": [], "response": "", "usage": None}
             calls.append(record)
             save(directory / "model_calls.json", calls)
@@ -219,6 +231,7 @@ def run_episode(task, mode, settings, output, planner):
     if not usage_missing and settings.input_usd_per_million is not None and settings.output_usd_per_million is not None:
         cost = (usage["prompt_tokens"] * settings.input_usd_per_million + usage["completion_tokens"] * settings.output_usd_per_million) / 1e6
     result = {"id": episode_id, "task_id": task["id"], "benchmark": task["benchmark"], "mode": mode,
+              "skill_hash": skill.hash if skill else None,
               "controller_variant": settings.controller_variant,
               "filter_events": sum(row['tail_filter'] is not None for row in trajectory),
               "filter_checks": sum((row['tail_filter'] or {}).get('checks', 0) for row in trajectory),
