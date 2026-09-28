@@ -79,7 +79,10 @@ def main():
 
 
 if __name__ == '__main__':
-    if sys.argv[1:] == ['--gpt-rollout-batch']:
+    if sys.argv[1:] == ['--alfworld-actiononly']:
+        from experiments.alfworld_campaign import run
+        run()
+    elif sys.argv[1:] == ['--gpt-rollout-batch']:
         from experiments.gpt_rollout_batch import run
         run()
     elif sys.argv[1:2] == ['--skill-evolution']:
