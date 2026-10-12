@@ -13,6 +13,10 @@ dependencies = ["omegaconf>=2.3.0"]
 include = ["dynamic_skill*", "experiments*"]
 exclude = ["results*", "tests*", "skillopt*"]
 
+[tool.setuptools.package-data]
+dynamic_skill = ["migration_20261008.json"]
+experiments = ["migration_20261008.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]

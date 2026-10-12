@@ -6,10 +6,54 @@ from experiments.alfworld_campaign import prompt_for, run_episode, SYSTEM
 from experiments.puzzle_pilot import Settings
 
 
+def test_billing_checkpoint_preserves_unknown_and_guard(tmp_path):
+    from experiments.alfworld_campaign import authorize_billing_resume
+    from dynamic_skill.campaign_budget import CampaignBudget, CampaignHalt
+    budget=CampaignBudget(tmp_path/'b.json',deadline=100,clock=lambda:1)
+    budget.settle(budget.reserve('unknown'),error=ConnectionError())
+    original=budget.read()['requests']
+    authorize_billing_resume(budget,9)
+    state=budget.read()
+    assert state['requests']==original and state['limit_usd']==5
+    assert CampaignBudget.effective_spend(state)==pytest.approx(.94)
+    with pytest.raises(AssertionError): authorize_billing_resume(budget,9)
+    state['limit_usd']=1
+    budget.write(state)
+    with pytest.raises(CampaignHalt,match='budget_stop'): budget.reserve('over')
+
+
+def test_twenty_authorization(tmp_path):
+    from experiments.alfworld_campaign import authorize_twenty_resume
+    from dynamic_skill.campaign_budget import CampaignBudget
+    budget=CampaignBudget(tmp_path/'b.json',deadline=100,clock=lambda:1)
+    budget.settle(budget.reserve('unknown'),error=ConnectionError())
+    before=budget.read()
+    authorize_twenty_resume(budget,3)
+    after=budget.read()
+    assert after['limit_usd']==20 and after['requests']==before['requests']
+    assert CampaignBudget.effective_spend(after)==pytest.approx(1.15)
+    assert after['max_requests']==151 and after['cooldown_until']==before['cooldown_until']
+    with pytest.raises(AssertionError): authorize_twenty_resume(budget,3)
+
+
 def test_action_only_prompt():
     prompt=prompt_for('task','observation',['look'],[],'skill',4,'')
     assert '<think>' not in prompt and '1 to 4' in prompt
     assert 'no reasoning' in prompt.lower() and '<think>' not in SYSTEM
+
+
+def test_resume_preserves_charges_and_is_one_time(tmp_path):
+    from experiments.alfworld_campaign import authorize_resume
+    from dynamic_skill.campaign_budget import CampaignBudget
+    budget=CampaignBudget(tmp_path/'b.json',deadline=100,clock=lambda:1)
+    budget.settle(budget.reserve('unknown'),error=ConnectionError())
+    old=budget.read()
+    authorize_resume(budget,11)
+    new=budget.read()
+    assert new['requests']==old['requests'] and new['limit_usd']==old['limit_usd']
+    assert new['max_unknown_requests']==2 and new['max_requests']==551
+    assert new['cooldown_until']==old['cooldown_until']
+    with pytest.raises(AssertionError): authorize_resume(budget,11)
 
 
 @pytest.mark.skipif(os.environ.get('RUN_ALFWORLD_INTEGRATION')!='1',reason='requires ALFWorld data')

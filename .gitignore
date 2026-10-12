@@ -5,3 +5,14 @@ __pycache__/
 .pytest_cache/
 results/*
 !results/.gitkeep
+
+# 本机/服务器凭据、网络配置和原始运行日志不属于公开源码。
+.env
+.env.*
+*.pem
+*.key
+api-key.txt
+ssh-key.txt
+proxy.env
+work_proxy_install/
+代理使用与重启说明.md

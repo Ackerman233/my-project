@@ -1,0 +1,7 @@
+{
+  "tasks_hash": "d287e8f1fb146d7c4ef36ad4a9302db19d7a19a9225ab6fbede5f3898a0416a1",
+  "count": 6,
+  "seeds": "2026092831..33/41..43",
+  "gate": "at least 5/6, >=2/3 per benchmark; invalid fraction <=10%; zero format/API/unknown errors",
+  "purpose": "new synthetic basic-capability development gate, not held-out long-horizon benchmark"
+}

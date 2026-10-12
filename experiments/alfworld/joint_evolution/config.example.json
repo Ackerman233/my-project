@@ -1,0 +1,45 @@
+{
+  "generations": 2,
+  "candidates_per_generation": 2,
+  "batch_usd": 5.0,
+  "cumulative_limit_usd": 105,
+  "optimizer_max_tokens": 1536,
+  "optimizer": {
+    "pipeline": "skillopt_reflect_aggregate_rank_apply_v1",
+    "max_calls_per_candidate": 4,
+    "max_selected_edits": 4,
+    "meta_skill_enabled": false
+  },
+  "allow_previously_exposed_evaluation": false,
+  "settings": {
+    "model": "qwen3.6-35b-a3b",
+    "base_url": "https://api.inferera.com/v1",
+    "max_calls": 8,
+    "max_steps": 32,
+    "max_tokens": 1024,
+    "temperature": 0,
+    "request_timeout": 60,
+    "episode_seconds": 600
+  },
+  "initial": {
+    "skill_text": "Use only public observations and admissible primitive actions. Track the task, held object and unresolved conditions. Verify preconditions before acting; do not repeat a rejected action without new evidence. Plan a short action queue and reconsider it when new observations contradict its assumptions.",
+    "policy": {
+      "max_actions": 4,
+      "trigger": "anomaly",
+      "invalid_patience": 1,
+      "recovery_steps": 0,
+      "state_check": true,
+      "discovery_interrupt": false,
+      "history_evidence": true
+    }
+  },
+  "splits": {
+    "train": [{"id": "train-01", "scene_id": "REPLACE_TRAIN_SCENE", "gamefile": "/path/train/REPLACE_TRAIN_SCENE/trial/game.tw-pddl"}],
+    "selection": [{"id": "selection-01", "scene_id": "REPLACE_SELECTION_SCENE", "gamefile": "/path/valid_seen/REPLACE_SELECTION_SCENE/trial/game.tw-pddl"}],
+    "confirmation": [
+      [{"id": "confirm-01", "scene_id": "REPLACE_CONFIRM_SCENE_1", "gamefile": "/path/valid_unseen/REPLACE_CONFIRM_SCENE_1/trial/game.tw-pddl"}],
+      [{"id": "confirm-02", "scene_id": "REPLACE_CONFIRM_SCENE_2", "gamefile": "/path/valid_unseen/REPLACE_CONFIRM_SCENE_2/trial/game.tw-pddl"}]
+    ],
+    "test": [{"id": "test-01", "scene_id": "REPLACE_TEST_SCENE", "gamefile": "/path/valid_unseen/REPLACE_TEST_SCENE/trial/game.tw-pddl"}]
+  }
+}

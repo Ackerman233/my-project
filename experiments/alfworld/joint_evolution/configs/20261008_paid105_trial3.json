@@ -1,0 +1,110 @@
+{
+  "generations": 1,
+  "candidates_per_generation": 1,
+  "batch_usd": 9.2,
+  "optimizer_max_tokens": 2048,
+  "optimizer": {
+    "pipeline": "skillopt_reflect_aggregate_rank_apply_v1",
+    "max_calls_per_candidate": 4,
+    "max_selected_edits": 4,
+    "meta_skill_enabled": false
+  },
+  "allow_previously_exposed_evaluation": false,
+  "settings": {
+    "model": "qwen3.6-35b-a3b",
+    "base_url": "https://api.inferera.com/v1",
+    "max_calls": 8,
+    "max_steps": 40,
+    "max_tokens": 512,
+    "temperature": 0,
+    "request_timeout": 60,
+    "episode_seconds": 600
+  },
+  "initial": {
+    "skill_text": "# ALFWorld Embodied Agent Skill\n\n## Overview\nThis skill guides agents operating in the ALFWorld text-based embodied environment.\nThe agent must complete household tasks by navigating rooms, interacting with objects,\nand using appliances. The first queued action must be currently admissible; later actions must be valid after preceding actions.\n\n\n---\n\n## Task Types\n\n| Type | Goal | Key Steps |\n|------|------|-----------|\n| Pick & Place | Put object X in/on receptacle Y | Find X -> take X -> go to Y -> put X in/on Y |\n| Pick Two & Place | Put two instances of X in/on Y | Find X1 -> take -> place -> find X2 -> take -> place |\n| Examine in Light | Examine object X under desklamp | Find X -> take X -> find desklamp -> use desklamp |\n| Clean & Place | Clean object X and put in/on Y | Find X -> take X -> go to sink -> clean X -> go to Y -> put X |\n| Heat & Place | Heat object X and put in/on Y | Find X -> take X -> go to microwave -> heat X -> go to Y -> put X |\n| Cool & Place | Cool object X and put in/on Y | Find X -> take X -> go to fridge -> cool X -> go to Y -> put X |\n\n---\n\n## General Principles\n\n1. **Decompose the task**: Parse the goal into ordered sub-goals (locate, acquire, transform, deliver). Complete each before moving to the next.\n2. **Systematic exploration**: Search each surface and container exactly once before revisiting. Open closed containers (drawers, cabinets, fridge) before judging them empty.\n3. **Grab immediately**: When a required object is visible and reachable, take it right away before moving elsewhere.\n4. **Transform before placing**: If the task requires cleaning, heating, or cooling, perform the state change at the appropriate appliance before heading to the final destination.\n5. **Direct delivery**: Once holding the transformed (or untransformed) goal object, navigate straight to the target receptacle and place it.\n6. **Track progress**: Maintain an internal count of how many objects still need to be found and placed. Only stop searching when the count reaches zero.\n7. **Avoid loops**: Never repeat the same action more than twice in a row. If stuck, move to a different unexplored location.\n8. **Only choose admissible actions**: Pick a currently admissible first action. Later queued actions must have predictable preconditions; never invent object IDs.\n\n---\n\n## Common Mistakes to Avoid\n\n- **Revisiting searched locations**: Keep track of which surfaces/containers have been checked; do not re-examine them.\n- **Ignoring visible objects**: If the target object appears in the observation, pick it up immediately.\n- **Skipping state changes**: Do not place an object at the destination without first cleaning/heating/cooling it when required.\n- **Premature termination**: Do not stop the episode until all goal conditions are verified as met.\n- **Action loops**: Repeatedly toggling or examining the same object wastes steps. Move on to new locations instead.",
+    "policy": {
+      "max_actions": 4,
+      "trigger": "anomaly",
+      "invalid_patience": 1,
+      "recovery_steps": 0,
+      "state_check": true,
+      "discovery_interrupt": false,
+      "history_evidence": true
+    }
+  },
+  "splits": {
+    "train": [
+      {
+        "id": "train-clean",
+        "scene_id": "pick_clean_then_place_in_recep-Bowl-None-Cabinet-10",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Bowl-None-Cabinet-10/trial_T20190909_061130_844814/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep"
+      },
+      {
+        "id": "train-cool",
+        "scene_id": "pick_cool_then_place_in_recep-Bread-None-CounterTop-10",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Bread-None-CounterTop-10/trial_T20190908_091747_866951/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep"
+      }
+    ],
+    "selection": [
+      {
+        "id": "select-clean-new",
+        "scene_id": "pick_clean_then_place_in_recep-Egg-None-Microwave-10",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Egg-None-Microwave-10/trial_T20190909_120554_888709/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep"
+      },
+      {
+        "id": "select-cool",
+        "scene_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-10/trial_T20190909_123133_763972/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep"
+      }
+    ],
+    "confirmation": [
+      [
+        {
+          "id": "confirm3-clean",
+          "scene_id": "pick_clean_then_place_in_recep-Plate-None-CounterTop-10",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-Plate-None-CounterTop-10/trial_T20190908_213356_017769/game.tw-pddl",
+          "task_family": "pick_clean_then_place_in_recep"
+        },
+        {
+          "id": "confirm3-heat",
+          "scene_id": "pick_heat_then_place_in_recep-Apple-None-Fridge-10",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Apple-None-Fridge-10/trial_T20190906_182259_116320/game.tw-pddl",
+          "task_family": "pick_heat_then_place_in_recep"
+        }
+      ]
+    ],
+    "test": [
+      {
+        "id": "test3-clean",
+        "scene_id": "pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_clean_then_place_in_recep-SoapBar-None-Cabinet-424/trial_T20190908_214926_337906/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep"
+      },
+      {
+        "id": "test3-heat",
+        "scene_id": "pick_heat_then_place_in_recep-Cup-None-Cabinet-10",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_unseen/pick_heat_then_place_in_recep-Cup-None-Cabinet-10/trial_T20190907_083346_800823/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep"
+      }
+    ]
+  },
+  "cumulative_limit_usd": 105,
+  "preregistration": {
+    "purpose": "New frozen paid trial following a connection-error stop before optimizer execution in protocol2; no retry of the failed selection episode.",
+    "allocation": "Training and the completed cooling selection scene stay development data. The failed clean-selection scene is replaced by the previously reserved but unexecuted first-batch clean confirmation scene. Fresh clean and heat confirmation/test scenes are lexicographically selected by distinct object from currently unexposed task directories.",
+    "room_layout_reuse": true,
+    "unit": "ALFWorld task scene directory, not unseen house layout",
+    "fairness": "Same model, primitive action interface, budgets, output protocol and environment seed; no custom search/acquisition macros. Optimizer uses training trajectories only.",
+    "acceptance": "Existing paired_gate: no successful-task loss and at least one success win, or reduced calls on common successes with no greater cost/steps/invalid actions; candidate must pass selection and that round fresh confirmation. No rule adjustment after outcomes.",
+    "cost": "All new calls capped by remaining cumulative USD105 ledger and batch USD9.2. Retain the previous unknown USD0.50 reserve. No implicit API retry.",
+    "test": "Freeze final genome before four test arms: initial, skill_only, policy_only, evolved. Report all failures and actual nonterminal discarded tails; do not infer interrupt gain if policies are identical or no tail exposure.",
+    "protocol_repair": "Put complete joint edit schema and exact policy replacement target in system instructions; remove optimization contract from Previous Steps in This Epoch context. Do not insert missing evidence IDs or repair returned candidate edits.",
+    "adapted_from": "Optimizer formatting correction uses first-batch training/reflection only. This batch keeps that correction and the same acceptance gate; selection scene changed only because of recorded APIConnectionError, not task failure.",
+    "scope": "Fresh task scenes; same room layouts can recur. Train clean/cool, evaluate clean/heat; two-task exploratory confirmation/test cannot establish broad generalization."
+  },
+  "optimizer_prompt_protocol": "explicit_joint_schema_v2"
+}

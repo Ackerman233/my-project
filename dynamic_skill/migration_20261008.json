@@ -1,0 +1,195 @@
+{
+  "modules": {
+    "dynamic_skill.acquisition_check": {
+      "module": "dynamic_skill.alfworld.acquisition_check",
+      "old_path": "dynamic_skill/acquisition_check.py",
+      "path": "dynamic_skill/alfworld/acquisition_check.py",
+      "original_sha256": "70dc49eb1a10163247b087ae013bc9d8969f73f5cb3b86eb98f32cfddc573430",
+      "migrated_sha256": "70dc49eb1a10163247b087ae013bc9d8969f73f5cb3b86eb98f32cfddc573430"
+    },
+    "dynamic_skill.alfworld_open_guard": {
+      "module": "dynamic_skill.alfworld.alfworld_open_guard",
+      "old_path": "dynamic_skill/alfworld_open_guard.py",
+      "path": "dynamic_skill/alfworld/alfworld_open_guard.py",
+      "original_sha256": "a57fd2e47a3214dac430edae271e2cd1565efa77d509fc8eab663929185b006e",
+      "migrated_sha256": "d0c6afb266bacd51031ab1c196f5c363e1c2e386f5a950bb861313b6b5edf751"
+    },
+    "dynamic_skill.alfworld_recovery": {
+      "module": "dynamic_skill.alfworld.alfworld_recovery",
+      "old_path": "dynamic_skill/alfworld_recovery.py",
+      "path": "dynamic_skill/alfworld/alfworld_recovery.py",
+      "original_sha256": "37642f82585f6b077cb1c7cc4ca70add16723f770fde1c56c66af1149778b581",
+      "migrated_sha256": "55c562d286b066f0d85cfa6f95363ad44fcf0f40df008034e4c291563637e4a3"
+    },
+    "dynamic_skill.alfworld_rollout": {
+      "module": "dynamic_skill.alfworld.alfworld_rollout",
+      "old_path": "dynamic_skill/alfworld_rollout.py",
+      "path": "dynamic_skill/alfworld/alfworld_rollout.py",
+      "original_sha256": "fd38e5a998cb64d8365074037dfd86020bfaa5ab380619f03dde0df842ff1283",
+      "migrated_sha256": "a106690c650b975ff954e3ba50254c7a72edc13182569977a1f5d82cf9534dd4"
+    },
+    "dynamic_skill.campaign_budget": {
+      "module": "dynamic_skill.infrastructure.campaign_budget",
+      "old_path": "dynamic_skill/campaign_budget.py",
+      "path": "dynamic_skill/infrastructure/campaign_budget.py",
+      "original_sha256": "187544754809828942b57c1bcde202cdd8ed3774047ec567a3894621ab1aaa90",
+      "migrated_sha256": "187544754809828942b57c1bcde202cdd8ed3774047ec567a3894621ab1aaa90"
+    },
+    "dynamic_skill.checker": {
+      "module": "dynamic_skill.execution.checker",
+      "old_path": "dynamic_skill/checker.py",
+      "path": "dynamic_skill/execution/checker.py",
+      "original_sha256": "23d5cbab4a3a7e3043a7c63dff7bc2178394f9a2995e907d8c7357cc58f6c566",
+      "migrated_sha256": "23d5cbab4a3a7e3043a7c63dff7bc2178394f9a2995e907d8c7357cc58f6c566"
+    },
+    "dynamic_skill.control_only_evolution": {
+      "module": "dynamic_skill.controllers.control_only_evolution",
+      "old_path": "dynamic_skill/control_only_evolution.py",
+      "path": "dynamic_skill/controllers/control_only_evolution.py",
+      "original_sha256": "1f13ae31653f9abf1816c3db2e084e621a4da7035ad4994899d70d6b4aef4582",
+      "migrated_sha256": "e20dbe40cf287e25474156d0b0aa62ab2d320e508a54f0dae9821b5027619b9d"
+    },
+    "dynamic_skill.evolution": {
+      "module": "dynamic_skill.learning.evolution",
+      "old_path": "dynamic_skill/evolution.py",
+      "path": "dynamic_skill/learning/evolution.py",
+      "original_sha256": "b38032decb887397324cbf72a1d0f2b30681e059e4e90898a7a55a4387ef0afb",
+      "migrated_sha256": "2848d500227a152df8372a849f8a01ea7218e322851566e19ebd8f2ac054692c"
+    },
+    "dynamic_skill.failure_analyzer": {
+      "module": "dynamic_skill.knowledge.failure_analyzer",
+      "old_path": "dynamic_skill/failure_analyzer.py",
+      "path": "dynamic_skill/knowledge/failure_analyzer.py",
+      "original_sha256": "1fc9a078d506dd322171105109c4d3fa5ddff6f216c58338202a677579f16d32",
+      "migrated_sha256": "1fc9a078d506dd322171105109c4d3fa5ddff6f216c58338202a677579f16d32"
+    },
+    "dynamic_skill.interrupter": {
+      "module": "dynamic_skill.execution.interrupter",
+      "old_path": "dynamic_skill/interrupter.py",
+      "path": "dynamic_skill/execution/interrupter.py",
+      "original_sha256": "fd59c07013bc71a67cac8ff9738e21d41ef658e59767b79c5ec4273e0f8034cf",
+      "migrated_sha256": "7596b4a458fe5452ebb8b82454f870aab24ac712d74d4ecda29107ab556ab8b2"
+    },
+    "dynamic_skill.micro_loop_protocol": {
+      "module": "dynamic_skill.alfworld.micro_loop_protocol",
+      "old_path": "dynamic_skill/micro_loop_protocol.py",
+      "path": "dynamic_skill/alfworld/micro_loop_protocol.py",
+      "original_sha256": "21a4b6a5ae3c0df7f458fc9acc1d9f6b5ec98f8ce2836c9d0ec0c794d81387a1",
+      "migrated_sha256": "21a4b6a5ae3c0df7f458fc9acc1d9f6b5ec98f8ce2836c9d0ec0c794d81387a1"
+    },
+    "dynamic_skill.observable_search_operator": {
+      "module": "dynamic_skill.alfworld.observable_search_operator",
+      "old_path": "dynamic_skill/observable_search_operator.py",
+      "path": "dynamic_skill/alfworld/observable_search_operator.py",
+      "original_sha256": "f89f596cc36b96a1c5cffe88197a55780ea13aa3172ad4f4f75669bfb632eeab",
+      "migrated_sha256": "c6d387a0406749734d03b6150be08ea4ba7ec3c10164df78fdb42a7b58c2d142"
+    },
+    "dynamic_skill.paper_control": {
+      "module": "dynamic_skill.controllers.paper_control",
+      "old_path": "dynamic_skill/paper_control.py",
+      "path": "dynamic_skill/controllers/paper_control.py",
+      "original_sha256": "f29b57ac6cfa21bb980652db0b299218ef43a18c689093a525a05757ba07fa52",
+      "migrated_sha256": "392b773b1c4597aaa15fcdea51dde506c8a46cc843226f8e56ce617fe99ba951"
+    },
+    "dynamic_skill.puzzles": {
+      "module": "dynamic_skill.environments.puzzles",
+      "old_path": "dynamic_skill/puzzles.py",
+      "path": "dynamic_skill/environments/puzzles.py",
+      "original_sha256": "b2e10016839190c4ad8ad3f11e329b5984d976c7be3b2c774ac1eb9d28b5c984",
+      "migrated_sha256": "92153fad1fac685e56e4cbd926ff99f30abb920d1997abd64d85fb7f53e0b164"
+    },
+    "dynamic_skill.queue_evidence": {
+      "module": "dynamic_skill.evidence.queue_evidence",
+      "old_path": "dynamic_skill/queue_evidence.py",
+      "path": "dynamic_skill/evidence/queue_evidence.py",
+      "original_sha256": "06c034a5c033608a59700b2155ddc99154bacb76e10b32739a183e2223314c70",
+      "migrated_sha256": "28c819e6c94f0db92e0ebbc5f8d1e8ec2c3176df2f37498746897e810d7d2c29"
+    },
+    "dynamic_skill.queue_revision": {
+      "module": "dynamic_skill.evidence.queue_revision",
+      "old_path": "dynamic_skill/queue_revision.py",
+      "path": "dynamic_skill/evidence/queue_revision.py",
+      "original_sha256": "f5ce066f4b41358ce4875cecb890ff117aa69fae4dad3ea2eb81d9e470036ce9",
+      "migrated_sha256": "f5ce066f4b41358ce4875cecb890ff117aa69fae4dad3ea2eb81d9e470036ce9"
+    },
+    "dynamic_skill.react_metrics": {
+      "module": "dynamic_skill.alfworld.react_metrics",
+      "old_path": "dynamic_skill/react_metrics.py",
+      "path": "dynamic_skill/alfworld/react_metrics.py",
+      "original_sha256": "6851093b1248a1de7ed46c7fc1637bed064143b3ccb76feaa0f2fdad450d8659",
+      "migrated_sha256": "6851093b1248a1de7ed46c7fc1637bed064143b3ccb76feaa0f2fdad450d8659"
+    },
+    "dynamic_skill.research_controller": {
+      "module": "dynamic_skill.controllers.research_controller",
+      "old_path": "dynamic_skill/research_controller.py",
+      "path": "dynamic_skill/controllers/research_controller.py",
+      "original_sha256": "f07e1fcc96c0f7ad9828bcd0cca0c7fd8c37329e9bbf0435c5cca42a9f44d5f2",
+      "migrated_sha256": "f07e1fcc96c0f7ad9828bcd0cca0c7fd8c37329e9bbf0435c5cca42a9f44d5f2"
+    },
+    "dynamic_skill.skill": {
+      "module": "dynamic_skill.knowledge.skill",
+      "old_path": "dynamic_skill/skill.py",
+      "path": "dynamic_skill/knowledge/skill.py",
+      "original_sha256": "59bf5727c102a2b5a04dad2b320ac6a1f8814e653cf06048bc23be163c264f41",
+      "migrated_sha256": "59bf5727c102a2b5a04dad2b320ac6a1f8814e653cf06048bc23be163c264f41"
+    },
+    "dynamic_skill.skill_executor": {
+      "module": "dynamic_skill.execution.skill_executor",
+      "old_path": "dynamic_skill/skill_executor.py",
+      "path": "dynamic_skill/execution/skill_executor.py",
+      "original_sha256": "9cc2b3e1de7a7691fc466672b981747e2e9b23654019ee2194f118c2d7627047",
+      "migrated_sha256": "cb3b7871a4d6b6771df2bd3ffbda7534b1e93a9641dc116d9a2834323489e481"
+    },
+    "dynamic_skill.skill_induction": {
+      "module": "dynamic_skill.knowledge.skill_induction",
+      "old_path": "dynamic_skill/skill_induction.py",
+      "path": "dynamic_skill/knowledge/skill_induction.py",
+      "original_sha256": "75659c91d8f2b50e72453181989a4549a13d0a10e7519d1c3ad4c8b508bd0fc5",
+      "migrated_sha256": "444586cd67866c842317cc7ad5e0bfbec257d79e31ca4a0513dce0c1d8c19c71"
+    },
+    "dynamic_skill.skill_updater": {
+      "module": "dynamic_skill.knowledge.skill_updater",
+      "old_path": "dynamic_skill/skill_updater.py",
+      "path": "dynamic_skill/knowledge/skill_updater.py",
+      "original_sha256": "9cc69ee3df586fad6fcf0239a154b400ab27d43462cb2b2cafbda6a393758456",
+      "migrated_sha256": "6cecb0907655334d9c0f6634e17bf99aa58ec1a6bd662d0f4530bbff5662aa74"
+    },
+    "dynamic_skill.space_boundary": {
+      "module": "dynamic_skill.alfworld.space_boundary",
+      "old_path": "dynamic_skill/space_boundary.py",
+      "path": "dynamic_skill/alfworld/space_boundary.py",
+      "original_sha256": "219181ff9152795d83f9aec50cbcbd399398e70320329d9c147d6de1ad521346",
+      "migrated_sha256": "219181ff9152795d83f9aec50cbcbd399398e70320329d9c147d6de1ad521346"
+    },
+    "dynamic_skill.space_subskills": {
+      "module": "dynamic_skill.alfworld.space_subskills",
+      "old_path": "dynamic_skill/space_subskills.py",
+      "path": "dynamic_skill/alfworld/space_subskills.py",
+      "original_sha256": "cd28f84163e598bd94037c642700e227c2464a935edadc4f4fd8e5144d867c85",
+      "migrated_sha256": "6e01af60b679f23d8e5a05fc479fb608c5c224482f52a7c6a59a3e46cf5d4345"
+    },
+    "dynamic_skill.tail_filter": {
+      "module": "dynamic_skill.evidence.tail_filter",
+      "old_path": "dynamic_skill/tail_filter.py",
+      "path": "dynamic_skill/evidence/tail_filter.py",
+      "original_sha256": "0894bb48b9f528cd9475b67d0681a83733a745ec56207fd4c7893f09da2689bf",
+      "migrated_sha256": "f2bdfb9eb69bfc3fdb7ea48e63b2491a0b4c7ae8a71b2cb8663c0f0a6ae27830"
+    },
+    "dynamic_skill.thinking_policy": {
+      "module": "dynamic_skill.infrastructure.thinking_policy",
+      "old_path": "dynamic_skill/thinking_policy.py",
+      "path": "dynamic_skill/infrastructure/thinking_policy.py",
+      "original_sha256": "4ce39980147c0857608f67441cfdb332f0da516ceca37d5d2391790e524cfa30",
+      "migrated_sha256": "4ce39980147c0857608f67441cfdb332f0da516ceca37d5d2391790e524cfa30"
+    },
+    "dynamic_skill.value_termination": {
+      "module": "dynamic_skill.controllers.value_termination",
+      "old_path": "dynamic_skill/value_termination.py",
+      "path": "dynamic_skill/controllers/value_termination.py",
+      "original_sha256": "7be90764c3ab37d1f3ad53c4de32d5d370a38da6bc11e972a245784e40d8f31c",
+      "migrated_sha256": "19581029860932a3074b45fd428b11fcbe1a52990d507097b6cfff014df79665"
+    }
+  },
+  "archive": "experiments/_archive/20261008_dynamic_skill_sources.zip",
+  "archive_sha256": "55f4bb8e3d336fee91a1eb294c0cc828108bd863add9cb887c53cfa527c57d3d"
+}

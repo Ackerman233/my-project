@@ -1,9 +1,14 @@
 """Training-free dynamic skill execution components."""
 
-from .checker import CheckResult, CheckStatus, ObservationChecker
-from .interrupter import Decision, DecisionType, Interrupter
-from .skill import SkillPlan, SkillStep
-from .skill_executor import ChunkExecutor, ExecutionEvent
+from pathlib import Path
+from .infrastructure.compat import install_aliases
+
+install_aliases(Path(__file__).with_name('migration_20261008.json'))
+
+from .execution.checker import CheckResult, CheckStatus, ObservationChecker
+from .execution.interrupter import Decision, DecisionType, Interrupter
+from .knowledge.skill import SkillPlan, SkillStep
+from .execution.skill_executor import ChunkExecutor, ExecutionEvent
 
 __all__ = [
     "CheckResult",
@@ -17,4 +22,3 @@ __all__ = [
     "SkillPlan",
     "SkillStep",
 ]
-

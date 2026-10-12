@@ -1,0 +1,450 @@
+{
+  "generations": 1,
+  "candidates_per_generation": 2,
+  "batch_usd": 48,
+  "optimizer_max_tokens": 3072,
+  "optimizer": {
+    "pipeline": "skillopt_reflect_aggregate_rank_apply_v1",
+    "max_calls_per_candidate": 4,
+    "max_selected_edits": 4,
+    "meta_skill_enabled": false
+  },
+  "allow_previously_exposed_evaluation": false,
+  "settings": {
+    "model": "qwen3.6-35b-a3b",
+    "base_url": "https://api.inferera.com/v1",
+    "chunk_size": 4,
+    "max_steps": 40,
+    "max_calls": 8,
+    "max_tokens": 512,
+    "temperature": 0,
+    "request_timeout": 120,
+    "episode_seconds": 600,
+    "input_usd_per_million": null,
+    "output_usd_per_million": null,
+    "action_only": false,
+    "prompt_variant": "baseline",
+    "controller_variant": "strict",
+    "output_protocol": "legacy"
+  },
+  "initial": {
+    "skill_text": "# ALFWorld Embodied Agent Skill\n\n## Overview\nThis skill guides agents operating in the ALFWorld text-based embodied environment.\nThe agent must complete household tasks by navigating rooms, interacting with objects,\nand using appliances. The first queued action must be currently admissible; later actions must be valid after preceding actions.\n\n\n---\n\n## Task Types\n\n| Type | Goal | Key Steps |\n|------|------|-----------|\n| Pick & Place | Put object X in/on receptacle Y | Find X -> take X -> go to Y -> put X in/on Y |\n| Pick Two & Place | Put two instances of X in/on Y | Find X1 -> take -> place -> find X2 -> take -> place |\n| Examine in Light | Examine object X under desklamp | Find X -> take X -> find desklamp -> use desklamp |\n| Clean & Place | Clean object X and put in/on Y | Find X -> take X -> go to sink -> clean X -> go to Y -> put X |\n| Heat & Place | Heat object X and put in/on Y | Find X -> take X -> go to microwave -> heat X -> go to Y -> put X |\n| Cool & Place | Cool object X and put in/on Y | Find X -> take X -> go to fridge -> cool X -> go to Y -> put X |\n\n---\n\n## General Principles\n\n1. **Decompose the task**: Parse the goal into ordered sub-goals (locate, acquire, transform, deliver). Complete each before moving to the next.\n2. **Systematic exploration**: Search each surface and container exactly once before revisiting. Open closed containers (drawers, cabinets, fridge) before judging them empty.\n3. **Grab immediately**: When a required object is visible and reachable, take it right away before moving elsewhere.\n4. **Transform before placing**: If the task requires cleaning, heating, or cooling, perform the state change at the appropriate appliance before heading to the final destination.\n5. **Direct delivery**: Once holding the transformed (or untransformed) goal object, navigate straight to the target receptacle and place it.\n6. **Track progress**: Maintain an internal count of how many objects still need to be found and placed. Only stop searching when the count reaches zero.\n7. **Avoid loops**: Never repeat the same action more than twice in a row. If stuck, move to a different unexplored location.\n8. **Only choose admissible actions**: Pick a currently admissible first action. Later queued actions must have predictable preconditions; never invent object IDs.\n\n---\n\n## Common Mistakes to Avoid\n\n- **Revisiting searched locations**: Keep track of which surfaces/containers have been checked; do not re-examine them.\n- **Ignoring visible objects**: If the target object appears in the observation, pick it up immediately.\n- **Skipping state changes**: Do not place an object at the destination without first cleaning/heating/cooling it when required.\n- **Premature termination**: Do not stop the episode until all goal conditions are verified as met.\n- **Action loops**: Repeatedly toggling or examining the same object wastes steps. Move on to new locations instead.",
+    "policy": {
+      "max_actions": 4,
+      "trigger": "anomaly",
+      "invalid_patience": 1,
+      "recovery_steps": 0,
+      "state_check": true,
+      "discovery_interrupt": false,
+      "history_evidence": true
+    },
+    "revision": 0,
+    "parent_hash": "",
+    "evidence_ids": []
+  },
+  "splits": {
+    "train": [
+      {
+        "id": "train160-00",
+        "scene_id": "look_at_obj_in_light-Book-None-DeskLamp-309",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/look_at_obj_in_light-Book-None-DeskLamp-309/trial_T20190907_175823_717719/game.tw-pddl",
+        "task_family": "look_at_obj_in_light",
+        "game_sha256": "18f42e00a9f16811f89659a144070f267e33f3e90170c4ad5135195aa851dbad",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-01",
+        "scene_id": "pick_and_place_simple-Box-None-Sofa-205",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_and_place_simple-Box-None-Sofa-205/trial_T20190907_214755_478301/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "2e96eccda836f52ff2fcc29010d2302055310c3a5d8f2e46630b9170beff5e38",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-02",
+        "scene_id": "pick_clean_then_place_in_recep-Spoon-None-Drawer-8",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-Spoon-None-Drawer-8/trial_T20190907_151947_378545/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "9290451e6831b0f2f022614dbfd411e009e90e3b677569519f1e25a3da5db57c",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-03",
+        "scene_id": "pick_cool_then_place_in_recep-Mug-None-SideTable-21",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_cool_then_place_in_recep-Mug-None-SideTable-21/trial_T20190907_153535_965098/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "df77f96807ab4f2a970ceee62d12a5b3ae9ca205f7c5687640a30de4c1bfbbe9",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-04",
+        "scene_id": "pick_heat_then_place_in_recep-Mug-None-Shelf-7",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_heat_then_place_in_recep-Mug-None-Shelf-7/trial_T20190907_022308_669309/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep",
+        "game_sha256": "fd68df15868e23757229f07b72c242335e71b40a98cfe70336a0a6855b07d91d",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-05",
+        "scene_id": "pick_two_obj_and_place-ToiletPaper-None-Cabinet-412",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_two_obj_and_place-ToiletPaper-None-Cabinet-412/trial_T20190908_141627_482177/game.tw-pddl",
+        "task_family": "pick_two_obj_and_place",
+        "game_sha256": "4c60eb8bdadd0847d22f4b08180bf9217c69baa979ef8e4d3fe54fef5cde2cdb",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-06",
+        "scene_id": "look_at_obj_in_light-Pillow-None-DeskLamp-307",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/look_at_obj_in_light-Pillow-None-DeskLamp-307/trial_T20190908_190558_647867/game.tw-pddl",
+        "task_family": "look_at_obj_in_light",
+        "game_sha256": "2c381a0951463bf9ba6a5e31bd250aab35258e06ac16b7d1bc81378b5c2589f1",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-07",
+        "scene_id": "pick_and_place_simple-RemoteControl-None-ArmChair-223",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_and_place_simple-RemoteControl-None-ArmChair-223/trial_T20190908_163700_012593/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "4fca176e6af5f18d37b5d9c5fdc1aa28515bdc6b44445f2867d8fbc2fc0f001a",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-08",
+        "scene_id": "pick_clean_then_place_in_recep-Pot-None-StoveBurner-26",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_clean_then_place_in_recep-Pot-None-StoveBurner-26/trial_T20190907_210547_711059/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "281609b2a1229e7ed49c06a1a7817bb6e5b1dc372649c664efb71d121114659e",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "train160-09",
+        "scene_id": "pick_cool_then_place_in_recep-Tomato-None-CounterTop-7",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/train/pick_cool_then_place_in_recep-Tomato-None-CounterTop-7/trial_T20190906_185054_876261/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "ed2e33a541433cb62315565da4de46eaedd2d67e05dac88b6425e485ba417d89",
+        "dataset_split": "train",
+        "benchmark": "alfworld"
+      }
+    ],
+    "selection": [
+      {
+        "id": "select160b-00",
+        "scene_id": "pick_and_place_simple-SprayBottle-None-Toilet-418",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-SprayBottle-None-Toilet-418/trial_T20190906_190942_706186/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "62dba5a97d17369704502ac13d6d107af75be7b1d2b9618f54b35378db53c1dc",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-01",
+        "scene_id": "pick_clean_then_place_in_recep-Fork-None-CounterTop-23",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Fork-None-CounterTop-23/trial_T20190908_233922_171295/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "035b75be5951f45b91c91431748cc738ae53045f744dd53d2fc6a7754329aca6",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-02",
+        "scene_id": "pick_cool_then_place_in_recep-Tomato-None-Microwave-13",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Tomato-None-Microwave-13/trial_T20190910_173916_331859/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "56fc483b5b5cd33c3fd3c0009b88f515d472b3ee29e86e3190a0292bb4b8fe12",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-03",
+        "scene_id": "pick_heat_then_place_in_recep-Mug-None-SideTable-21",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Mug-None-SideTable-21/trial_T20190909_090729_088825/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep",
+        "game_sha256": "0885236e7eadd104c9744d3e60a4f87aab27a90f3dd22a1b778243008b330e10",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-04",
+        "scene_id": "pick_two_obj_and_place-Knife-None-Drawer-18",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-Knife-None-Drawer-18/trial_T20190907_065232_689984/game.tw-pddl",
+        "task_family": "pick_two_obj_and_place",
+        "game_sha256": "b2ca7b329e56c4cabb44929490244d325ee0a48bec542b28ecfaf9fbdc5fd825",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-05",
+        "scene_id": "pick_and_place_simple-ToiletPaper-None-ToiletPaperHanger-415",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-ToiletPaper-None-ToiletPaperHanger-415/trial_T20190908_050518_595510/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "c304c2b095e752efe63a1932d85f8b1deb3720381ce79f2d4fa0cfad6ce761e2",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-06",
+        "scene_id": "pick_clean_then_place_in_recep-Lettuce-None-Fridge-19",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Lettuce-None-Fridge-19/trial_T20190908_100138_446072/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "51821d5610d684690bec1232d1c3cc5b43fd8337cf694fc5606bf1faf86febef",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-07",
+        "scene_id": "pick_cool_then_place_in_recep-Egg-None-Microwave-24",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Egg-None-Microwave-24/trial_T20190908_234112_645480/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "651fa7ad4578b010ad51325de3841689858ccd2c686cdef2ad45a994e7de5e53",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-08",
+        "scene_id": "pick_heat_then_place_in_recep-Egg-None-Fridge-14",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Egg-None-Fridge-14/trial_T20190909_091314_636733/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep",
+        "game_sha256": "79589b4cb4c283bfb476adf242a3e0b8e9a99e4e48824b24c9ed506278cd10b1",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "select160b-09",
+        "scene_id": "pick_two_obj_and_place-CreditCard-None-Safe-323",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240/game.tw-pddl",
+        "task_family": "pick_two_obj_and_place",
+        "game_sha256": "1f845d84c3c9a29d2498e442165b8f0ab7b3ceddad50ca6fc42313cafac5ece1",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      }
+    ],
+    "confirmation": [
+      [
+        {
+          "id": "confirm160b-00",
+          "scene_id": "pick_and_place_simple-SprayBottle-None-Toilet-415",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-SprayBottle-None-Toilet-415/trial_T20190909_075955_678702/game.tw-pddl",
+          "task_family": "pick_and_place_simple",
+          "game_sha256": "37d6a69dc84b49245c338bb987f114eb080717d06132e58df9bbff2e73bec648",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-01",
+          "scene_id": "pick_clean_then_place_in_recep-SoapBar-None-Toilet-410",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-SoapBar-None-Toilet-410/trial_T20190906_201106_979461/game.tw-pddl",
+          "task_family": "pick_clean_then_place_in_recep",
+          "game_sha256": "5de332286ca1fa87a26753e5a5d0c43444529b69b260806c4c43aedee3a60fde",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-02",
+          "scene_id": "pick_cool_then_place_in_recep-Plate-None-Cabinet-7",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Plate-None-Cabinet-7/trial_T20190907_231206_512424/game.tw-pddl",
+          "task_family": "pick_cool_then_place_in_recep",
+          "game_sha256": "8020fdb9dab1e6cc4b9cc59826e0d5fdb06aed127839fdc19995f05bf6aeb3d5",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-03",
+          "scene_id": "pick_heat_then_place_in_recep-Plate-None-Cabinet-1",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Plate-None-Cabinet-1/trial_T20190908_070946_578973/game.tw-pddl",
+          "task_family": "pick_heat_then_place_in_recep",
+          "game_sha256": "df06933c1c637c81d82b3f3101deb9843a0dc23cc431486abc05c14fcd906f55",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-04",
+          "scene_id": "pick_two_obj_and_place-Book-None-Desk-313",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-Book-None-Desk-313/trial_T20190908_125930_920681/game.tw-pddl",
+          "task_family": "pick_two_obj_and_place",
+          "game_sha256": "ea2e6495fa3cecfa28ce61ed32df4cc7b0d74258ae89d4857e14379a29b324a1",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-05",
+          "scene_id": "pick_and_place_simple-SoapBottle-None-CounterTop-417",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-SoapBottle-None-CounterTop-417/trial_T20190910_112922_368384/game.tw-pddl",
+          "task_family": "pick_and_place_simple",
+          "game_sha256": "f7129b6cb46c104ce70145a3d1d5088057643ad23f0a3ea802ecf00519674964",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-06",
+          "scene_id": "pick_clean_then_place_in_recep-Fork-None-Drawer-8",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Fork-None-Drawer-8/trial_T20190908_132152_999725/game.tw-pddl",
+          "task_family": "pick_clean_then_place_in_recep",
+          "game_sha256": "c9bc7762b4ac027579ee9dd1b35b1ee7afab6ea0f93b598f3b0bdac3c26b800b",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-07",
+          "scene_id": "pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Mug-None-CoffeeMachine-16/trial_T20190908_184242_348366/game.tw-pddl",
+          "task_family": "pick_cool_then_place_in_recep",
+          "game_sha256": "f36b5d1f54e8d59ccaa497e5cc2e9c86382790c59fd22779d108ab8458d6dafb",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-08",
+          "scene_id": "pick_heat_then_place_in_recep-Potato-None-Fridge-12",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Potato-None-Fridge-12/trial_T20190908_014451_271080/game.tw-pddl",
+          "task_family": "pick_heat_then_place_in_recep",
+          "game_sha256": "5ffda61ca5f7b6682eb49075d0f0d804e8d15f362b1f12fd9272517e018db4a6",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        },
+        {
+          "id": "confirm160b-09",
+          "scene_id": "pick_two_obj_and_place-CreditCard-None-Dresser-311",
+          "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-CreditCard-None-Dresser-311/trial_T20190907_201917_045715/game.tw-pddl",
+          "task_family": "pick_two_obj_and_place",
+          "game_sha256": "fd0192a6279517b9fa4a9422e9b4ba43030da775a92654ca23704d66fa35d6bf",
+          "dataset_split": "valid_seen",
+          "benchmark": "alfworld"
+        }
+      ]
+    ],
+    "test": [
+      {
+        "id": "test160b-00",
+        "scene_id": "pick_and_place_simple-TissueBox-None-Toilet-426",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-TissueBox-None-Toilet-426/trial_T20190910_155319_795672/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "83bb5b810904e7185ff34285e0a906d54a8d28d41e91d7cafbd59e36c99a5bc0",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-01",
+        "scene_id": "pick_clean_then_place_in_recep-ButterKnife-None-DiningTable-16",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-ButterKnife-None-DiningTable-16/trial_T20190909_114508_617301/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "c6f45775d4b4671e477f893e2a6008b6be7d2a37d749203a82eb90b80dbf3f6c",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-02",
+        "scene_id": "pick_cool_then_place_in_recep-Apple-None-CounterTop-14",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Apple-None-CounterTop-14/trial_T20190909_044933_815840/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "bb44abba8c05ba976daaccfcd811ca543bfb51e1f79b7446bb3d9c02113ab037",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-03",
+        "scene_id": "pick_heat_then_place_in_recep-Mug-None-Cabinet-3",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Mug-None-Cabinet-3/trial_T20190909_014639_335717/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep",
+        "game_sha256": "700b5716ab65490fcfac436b3a8f4c924e48c00318a85a10ff554c3be7b0f7c5",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-04",
+        "scene_id": "pick_two_obj_and_place-SprayBottle-None-Toilet-402",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-SprayBottle-None-Toilet-402/trial_T20190910_222914_814642/game.tw-pddl",
+        "task_family": "pick_two_obj_and_place",
+        "game_sha256": "5d49c7eaa9655f60ad7106cad650c68be48afa047cac7c8a008396a0aeb712e5",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-05",
+        "scene_id": "pick_and_place_simple-WineBottle-None-Shelf-7",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_and_place_simple-WineBottle-None-Shelf-7/trial_T20190907_200154_378982/game.tw-pddl",
+        "task_family": "pick_and_place_simple",
+        "game_sha256": "f2726055a0e1c720aa06d32e79780928a34c2fa17dc019ad897eeeec33130867",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-06",
+        "scene_id": "pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-26",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_clean_then_place_in_recep-Mug-None-CoffeeMachine-26/trial_T20190907_233056_022802/game.tw-pddl",
+        "task_family": "pick_clean_then_place_in_recep",
+        "game_sha256": "f366616a4675098054e99418abbb95cc179e6648f47cb6056f4efd63c850887b",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-07",
+        "scene_id": "pick_cool_then_place_in_recep-Lettuce-None-CounterTop-11",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_cool_then_place_in_recep-Lettuce-None-CounterTop-11/trial_T20190908_222555_651605/game.tw-pddl",
+        "task_family": "pick_cool_then_place_in_recep",
+        "game_sha256": "a1502712276d5bd70fa4cb887f6dac488d4843c18c2875abdd82f172134fd9ba",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-08",
+        "scene_id": "pick_heat_then_place_in_recep-Egg-None-CounterTop-2",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_heat_then_place_in_recep-Egg-None-CounterTop-2/trial_T20190908_122951_021026/game.tw-pddl",
+        "task_family": "pick_heat_then_place_in_recep",
+        "game_sha256": "84f80a3ce2bd94d3651a4faa8d6225dff5721c65914ef77d32679307fa35770f",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      },
+      {
+        "id": "test160b-09",
+        "scene_id": "pick_two_obj_and_place-Box-None-CoffeeTable-213",
+        "gamefile": "/opt/data/private/data/alfworld/json_2.1.1/valid_seen/pick_two_obj_and_place-Box-None-CoffeeTable-213/trial_T20190906_200927_069627/game.tw-pddl",
+        "task_family": "pick_two_obj_and_place",
+        "game_sha256": "62aadd9e4beb1c48f1cde459d56b9287c4a4c647a59c8093487b3e3ed0d8eb82",
+        "dataset_split": "valid_seen",
+        "benchmark": "alfworld"
+      }
+    ]
+  },
+  "cumulative_limit_usd": 160,
+  "preregistration": {
+    "unit": "Ten distinct ALFWorld task scene directories per split; scene uniqueness is not room-layout independence.",
+    "allocation": "Reuse the 30 evaluation tasks reserved in the preceding formatter-only trial. The preceding trial never entered selection/confirmation/test: all candidates failed format validation, and test/skipped.json proves no final test execution. Exact source config hash and absence of all evaluation directories are checked. Training/branch data unchanged.",
+    "feedback": "One real nonempty-queue checkpoint per training task, prefer first invalid action/acquisition contradiction/observed target discovery; otherwise first ordinary queue. Select before suffix outcomes. Replay exact observation/action/admissible prefix; alternate arm order. No fabricated queues. 4 new calls/16 actions each branch, identical primitive operators and skill. Both failed gives unknown. Single rollout per branch is noisy.",
+    "candidate_space": "Two upstream SkillOpt candidates: skill_only and policy_or_joint. Any nonempty component change allowed. Policy edits require citation of a verified paired training example; a citation is provenance, not proof for every parameter. No forcing a policy update. No meta-skill learning.",
+    "acceptance": "Unchanged paired gate: no success loss, plus success gain or common-success call savings with nonincreased cost/actions/invalid. Ten selection tasks; winner alone on ten fresh confirmation tasks. Nonclean/infrastructure rows prevent acceptance. No post-outcome threshold change.",
+    "test": "Ten fresh valid_seen test tasks reserved. Freeze chosen model after independent confirmation, then evaluate unique initial/skill_only/policy_only/evolved configurations. If no update accepted, skip final test, record no gain established, and preserve test for a future frozen protocol instead of buying another identical baseline.",
+    "fairness": "Same model, primitive operators, budgets, protocol, temperature0 and environment seed42 for all full-episode arms.",
+    "transport": "Dedicated existing TW-02 profile for this process, persistent HTTP connection, connect timeout10/read120. Before reserving each generation, at most3 unauthenticated HEAD /models connection checks; no generation/fee when all fail. SDK retries0, existing at-most-one connection/timeout generation retry retained and charged. Stop after2 consecutive paid errors or4 new unknowns.",
+    "budget": "Cumulative USD160, this new batch USD48 maximum beyond start. All prior charges and unknown reservations retained; cached training costs are historical, not billed twice.",
+    "continuation": "This is a NEW output-protocol trial, not continuation of prior evaluations. Import training artifacts only; no prior selection/test trajectories reach optimizer.",
+    "output_protocol": "Repeat mandatory citation schema after full upstream trajectory data, outside Previous Steps context. Skill-only scope explicitly preserves policy. Exact replacement targets remain required; encourage append for new skill guidance. Never repair returned evidence IDs or targets.",
+    "citation_protocol": "Per-edit evidence IDs were an extra adapter constraint absent from upstream SkillOpt. They are now optional; if emitted, they must reference supplied training IDs. Raw missing citations remain missing, including Genome.evidence_ids. Separately record exact per-stage training inputs and available paired-branch inputs. This provenance is not an assertion that the model used each input, nor edit-level causal evidence. Do not repair raw responses or exact targets."
+  },
+  "optimizer_prompt_protocol": "component_scopes_paired_training_v5_upstream_provenance",
+  "candidate_scopes": [
+    "skill_only",
+    "policy_or_joint"
+  ],
+  "branch_feedback": true,
+  "connection_retry": true,
+  "protocol": "joint-skill-interrupt-live-v3",
+  "network_route": "environment",
+  "network_profile": "isolated_existing_TW-02",
+  "pooled_transport": true,
+  "footer_contract": true,
+  "test_unchanged": false,
+  "training_source": "/opt/data/private/src/my-project/results/alfworld/joint_evolution/20261008_paid160_footer",
+  "training_source_config_sha256": "b819548ab137f35406a9b33f26f1ac5d7110617ae1cf19bb1091727e224de192",
+  "citation_mode": "batch_provenance",
+  "evaluation_reservation_source": "/opt/data/private/src/my-project/results/alfworld/joint_evolution/20261008_paid160_footer",
+  "evaluation_reservation_config_sha256": "b819548ab137f35406a9b33f26f1ac5d7110617ae1cf19bb1091727e224de192"
+}

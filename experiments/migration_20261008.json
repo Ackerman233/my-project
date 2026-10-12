@@ -1,0 +1,560 @@
+{
+  "modules": {
+    "experiments._common": {
+      "module": "experiments.alfworld.common._common",
+      "old_path": "experiments/_common.py",
+      "path": "experiments/alfworld/common/_common.py",
+      "original_sha256": "e61403af87a9fb2e86bde8f6becfe0d3ed1c524a7908298f37b645a039ac3b22",
+      "migrated_sha256": "92cd54c3bba18a68321d8873536781fb3cce51130a5a9e9702b2b9447188169f"
+    },
+    "experiments.alfworld_campaign": {
+      "module": "experiments.alfworld.common.alfworld_campaign",
+      "old_path": "experiments/alfworld_campaign.py",
+      "path": "experiments/alfworld/common/alfworld_campaign.py",
+      "original_sha256": "04dd5b3455eda2152a7d26bffeea7b7a53ab73751b30575f17e9a482dfea00d5",
+      "migrated_sha256": "04dd5b3455eda2152a7d26bffeea7b7a53ab73751b30575f17e9a482dfea00d5"
+    },
+    "experiments.alfworld_final_remaining": {
+      "module": "experiments.alfworld.comparisons.alfworld_final_remaining",
+      "old_path": "experiments/alfworld_final_remaining.py",
+      "path": "experiments/alfworld/comparisons/alfworld_final_remaining.py",
+      "original_sha256": "925bf06b0cd447ea799db2672ca815c55cf4be99a864231af27f9903e810836b",
+      "migrated_sha256": "925bf06b0cd447ea799db2672ca815c55cf4be99a864231af27f9903e810836b"
+    },
+    "experiments.alfworld_staged_recovery": {
+      "module": "experiments.alfworld.comparisons.alfworld_staged_recovery",
+      "old_path": "experiments/alfworld_staged_recovery.py",
+      "path": "experiments/alfworld/comparisons/alfworld_staged_recovery.py",
+      "original_sha256": "6161649d81b324f8a77dab22402727e5f34a3ba9b7e31d5370c2408cd29a0453",
+      "migrated_sha256": "6161649d81b324f8a77dab22402727e5f34a3ba9b7e31d5370c2408cd29a0453"
+    },
+    "experiments.audit_alfworld_campaign": {
+      "module": "experiments.alfworld.common.audit_alfworld_campaign",
+      "old_path": "experiments/audit_alfworld_campaign.py",
+      "path": "experiments/alfworld/common/audit_alfworld_campaign.py",
+      "original_sha256": "b486056c47db5e940c2c797bfd08dc9c8d9d69c5bc2d7c112eb9e9451bc93daa",
+      "migrated_sha256": "b486056c47db5e940c2c797bfd08dc9c8d9d69c5bc2d7c112eb9e9451bc93daa"
+    },
+    "experiments.audit_brief_protocol_pair": {
+      "module": "experiments.puzzles.protocols.audit_brief_protocol_pair",
+      "old_path": "experiments/audit_brief_protocol_pair.py",
+      "path": "experiments/puzzles/protocols/audit_brief_protocol_pair.py",
+      "original_sha256": "d4c85a3147b3a08ad885e843542ae35314b01d0eb7c10929f08e40d5718242b2",
+      "migrated_sha256": "3253c6e7b1bc1d3831f0dc79401f3196096d09020276eea72689aeeb96d7123e"
+    },
+    "experiments.audit_cold_start_gate": {
+      "module": "experiments.puzzles.protocols.audit_cold_start_gate",
+      "old_path": "experiments/audit_cold_start_gate.py",
+      "path": "experiments/puzzles/protocols/audit_cold_start_gate.py",
+      "original_sha256": "474f081942b07868abf3a5c7e4aeddc039a517298e79357fe0c412a1ed78b7ab",
+      "migrated_sha256": "802adb3c8ad81cdcd1fab500acc9d643315627d9e649e02b84401de4791c2dc9"
+    },
+    "experiments.audit_control_parameter": {
+      "module": "experiments.alfworld.skill_evolution.audit_control_parameter",
+      "old_path": "experiments/audit_control_parameter.py",
+      "path": "experiments/alfworld/skill_evolution/audit_control_parameter.py",
+      "original_sha256": "32e3514ad8de7b040734918b98843d7c979a6d8742f1cea2af630d1b0b98f75e",
+      "migrated_sha256": "32e3514ad8de7b040734918b98843d7c979a6d8742f1cea2af630d1b0b98f75e"
+    },
+    "experiments.audit_controller_research": {
+      "module": "experiments.puzzles.dynamic_interrupt.audit_controller_research",
+      "old_path": "experiments/audit_controller_research.py",
+      "path": "experiments/puzzles/dynamic_interrupt/audit_controller_research.py",
+      "original_sha256": "4755eb43dc760abe605c65cad4dfe831570166d2f33a55187cd85ccfaece3e54",
+      "migrated_sha256": "9b1a46d5b03c0e5d637ce47777da7c260c65cd0260442385a4e5d6e45fa405aa"
+    },
+    "experiments.audit_discarded_tails": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_discarded_tails",
+      "old_path": "experiments/audit_discarded_tails.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_discarded_tails.py",
+      "original_sha256": "a59744c10b942712bac9c19c4d8a51448afe4607ed335c5baa07a2886432c103",
+      "migrated_sha256": "abc3935dd3ca61d00d1911d758e45db54d095f89cb0b5f2a4042a5633d7fa553"
+    },
+    "experiments.audit_equal_operator_attribution": {
+      "module": "experiments.alfworld.comparisons.audit_equal_operator_attribution",
+      "old_path": "experiments/audit_equal_operator_attribution.py",
+      "path": "experiments/alfworld/comparisons/audit_equal_operator_attribution.py",
+      "original_sha256": "080744e923aa6c1adef5e6c9b36a3a8ae3ee01b4e04f202afed184bd27369f06",
+      "migrated_sha256": "080744e923aa6c1adef5e6c9b36a3a8ae3ee01b4e04f202afed184bd27369f06"
+    },
+    "experiments.audit_independent_validation95": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_independent_validation95",
+      "old_path": "experiments/audit_independent_validation95.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_independent_validation95.py",
+      "original_sha256": "88b98661248c037245ea9b1e2509ca060d39de0eb123c57c99abcf926a5794d7",
+      "migrated_sha256": "88b98661248c037245ea9b1e2509ca060d39de0eb123c57c99abcf926a5794d7"
+    },
+    "experiments.audit_interrupt_recovery_v3": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_interrupt_recovery_v3",
+      "old_path": "experiments/audit_interrupt_recovery_v3.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_interrupt_recovery_v3.py",
+      "original_sha256": "9466579e720cf72787518585cf150e9a1da688081d6886c3f8315e14329dab9e",
+      "migrated_sha256": "9466579e720cf72787518585cf150e9a1da688081d6886c3f8315e14329dab9e"
+    },
+    "experiments.audit_interrupt_tails": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_interrupt_tails",
+      "old_path": "experiments/audit_interrupt_tails.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_interrupt_tails.py",
+      "original_sha256": "3cd78cc1562846e06a8a128d6c9a16239f9dd4c749900be0f07baf49cec7e6e1",
+      "migrated_sha256": "3cd78cc1562846e06a8a128d6c9a16239f9dd4c749900be0f07baf49cec7e6e1"
+    },
+    "experiments.audit_micro_evolution": {
+      "module": "experiments.alfworld.skill_evolution.audit_micro_evolution",
+      "old_path": "experiments/audit_micro_evolution.py",
+      "path": "experiments/alfworld/skill_evolution/audit_micro_evolution.py",
+      "original_sha256": "290fa363afc902105588d71d17f06f9bab4fc50656450accd4c5f594b481c96b",
+      "migrated_sha256": "290fa363afc902105588d71d17f06f9bab4fc50656450accd4c5f594b481c96b"
+    },
+    "experiments.audit_paper_cold_start": {
+      "module": "experiments.puzzles.protocols.audit_paper_cold_start",
+      "old_path": "experiments/audit_paper_cold_start.py",
+      "path": "experiments/puzzles/protocols/audit_paper_cold_start.py",
+      "original_sha256": "38fa17ca20af5ac9c2e253bf2379976526d80920d1334b7c09a3ad52283300e0",
+      "migrated_sha256": "dab0000f5304c642e596052d3423fdf35de7e28b612023ea0ef0849db5bc85a8"
+    },
+    "experiments.audit_paper_methods": {
+      "module": "experiments.alfworld.comparisons.audit_paper_methods",
+      "old_path": "experiments/audit_paper_methods.py",
+      "path": "experiments/alfworld/comparisons/audit_paper_methods.py",
+      "original_sha256": "36e2d5550b0ebcc051fc94fcc0580a67e31fac6173031f606d75f2ab25006d7b",
+      "migrated_sha256": "36e2d5550b0ebcc051fc94fcc0580a67e31fac6173031f606d75f2ab25006d7b"
+    },
+    "experiments.audit_prefix_recovery_results": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_prefix_recovery_results",
+      "old_path": "experiments/audit_prefix_recovery_results.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_prefix_recovery_results.py",
+      "original_sha256": "6126851c0e479dbba2fdd3a897dcd78592c399916250dd8d291ed97e43759dbb",
+      "migrated_sha256": "6126851c0e479dbba2fdd3a897dcd78592c399916250dd8d291ed97e43759dbb"
+    },
+    "experiments.audit_protocol_diagnostic": {
+      "module": "experiments.alfworld.protocols.audit_protocol_diagnostic",
+      "old_path": "experiments/audit_protocol_diagnostic.py",
+      "path": "experiments/alfworld/protocols/audit_protocol_diagnostic.py",
+      "original_sha256": "3eed74c4162f991420bbfdc3afaa97ec57bf507cd48d2b56aeb8610c1e3d1d91",
+      "migrated_sha256": "3eed74c4162f991420bbfdc3afaa97ec57bf507cd48d2b56aeb8610c1e3d1d91"
+    },
+    "experiments.audit_queue_revision_transfer": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_queue_revision_transfer",
+      "old_path": "experiments/audit_queue_revision_transfer.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_queue_revision_transfer.py",
+      "original_sha256": "613acafd293afde6126b47183d9dff7c6cff2722e13b0c900325f01b241fc9c5",
+      "migrated_sha256": "613acafd293afde6126b47183d9dff7c6cff2722e13b0c900325f01b241fc9c5"
+    },
+    "experiments.audit_search_coverage": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_search_coverage",
+      "old_path": "experiments/audit_search_coverage.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_search_coverage.py",
+      "original_sha256": "d11ab1f74caa7410a1d726c779388e7f2229b84286a51f37004a87c67d6ddc83",
+      "migrated_sha256": "d11ab1f74caa7410a1d726c779388e7f2229b84286a51f37004a87c67d6ddc83"
+    },
+    "experiments.audit_selective_tail": {
+      "module": "experiments.alfworld.dynamic_interrupt.audit_selective_tail",
+      "old_path": "experiments/audit_selective_tail.py",
+      "path": "experiments/alfworld/dynamic_interrupt/audit_selective_tail.py",
+      "original_sha256": "6a33b33c2e5b33602953373ee26db3d5c5e6987efa5c4318d4ca6c6c9eb3e653",
+      "migrated_sha256": "6a33b33c2e5b33602953373ee26db3d5c5e6987efa5c4318d4ca6c6c9eb3e653"
+    },
+    "experiments.audit_small_evolution_run": {
+      "module": "experiments.puzzles.skill_evolution.audit_small_evolution_run",
+      "old_path": "experiments/audit_small_evolution_run.py",
+      "path": "experiments/puzzles/skill_evolution/audit_small_evolution_run.py",
+      "original_sha256": "74e3b4a90079314a053284a9462a1c0e6205346e9ce51e42f4c7c018da8f9b4b",
+      "migrated_sha256": "45d48a93348bba6b329c0bc2f70e6d02c20a25c8efcad24ffa42f0d048defbd6"
+    },
+    "experiments.audit_staged_recovery": {
+      "module": "experiments.alfworld.comparisons.audit_staged_recovery",
+      "old_path": "experiments/audit_staged_recovery.py",
+      "path": "experiments/alfworld/comparisons/audit_staged_recovery.py",
+      "original_sha256": "d5033e8a72e4816da87c3a717b0dfd35d0a537aba26cf9fe9a6259e026ff85f5",
+      "migrated_sha256": "d5033e8a72e4816da87c3a717b0dfd35d0a537aba26cf9fe9a6259e026ff85f5"
+    },
+    "experiments.audit_tail_filter": {
+      "module": "experiments.puzzles.dynamic_interrupt.audit_tail_filter",
+      "old_path": "experiments/audit_tail_filter.py",
+      "path": "experiments/puzzles/dynamic_interrupt/audit_tail_filter.py",
+      "original_sha256": "b9db8b41775ae129ca708e40e9192e4163c58de56f0c12c193a95a8beb458dfe",
+      "migrated_sha256": "1acb5607484d99979ad49f64858aed40e37b0ecd168d01f5eef5939627952d12"
+    },
+    "experiments.bounded_research95": {
+      "module": "experiments.common.bounded_research95",
+      "old_path": "experiments/bounded_research95.py",
+      "path": "experiments/common/bounded_research95.py",
+      "original_sha256": "45a48f54670aad9a254c65444ba29c039aaeeefa88835c69d13d45d8d1431413",
+      "migrated_sha256": "45a48f54670aad9a254c65444ba29c039aaeeefa88835c69d13d45d8d1431413"
+    },
+    "experiments.brief_protocol_pair": {
+      "module": "experiments.puzzles.protocols.brief_protocol_pair",
+      "old_path": "experiments/brief_protocol_pair.py",
+      "path": "experiments/puzzles/protocols/brief_protocol_pair.py",
+      "original_sha256": "564786b7750b56ee2041d6e60d68ec81ad164dc91e37d991f4ebd0cc634acd90",
+      "migrated_sha256": "564786b7750b56ee2041d6e60d68ec81ad164dc91e37d991f4ebd0cc634acd90"
+    },
+    "experiments.campaign_runner": {
+      "module": "experiments.common.campaign_runner",
+      "old_path": "experiments/campaign_runner.py",
+      "path": "experiments/common/campaign_runner.py",
+      "original_sha256": "d16f7b252d47905948df77b9c41bab21a83713d70af9b46cb930ccddb5464b08",
+      "migrated_sha256": "5cb987ef6ba5ab4a3d63b6e5e9de99d2de2daf17e22abebd57a36edec742a7dc"
+    },
+    "experiments.cold_start_gate": {
+      "module": "experiments.puzzles.protocols.cold_start_gate",
+      "old_path": "experiments/cold_start_gate.py",
+      "path": "experiments/puzzles/protocols/cold_start_gate.py",
+      "original_sha256": "31609e747e8f9c68ec92faf15e4fd2ae0d3ed6fbdccb1333a2fba50462663b3e",
+      "migrated_sha256": "31609e747e8f9c68ec92faf15e4fd2ae0d3ed6fbdccb1333a2fba50462663b3e"
+    },
+    "experiments.compare_subskill_pair": {
+      "module": "experiments.alfworld.operators.compare_subskill_pair",
+      "old_path": "experiments/compare_subskill_pair.py",
+      "path": "experiments/alfworld/operators/compare_subskill_pair.py",
+      "original_sha256": "a149a40773aa56c7e9bf759f95a2c6a9157c44872e4b473a1e9925ed25fb714a",
+      "migrated_sha256": "a149a40773aa56c7e9bf759f95a2c6a9157c44872e4b473a1e9925ed25fb714a"
+    },
+    "experiments.control_parameter_trial": {
+      "module": "experiments.alfworld.skill_evolution.control_parameter_trial",
+      "old_path": "experiments/control_parameter_trial.py",
+      "path": "experiments/alfworld/skill_evolution/control_parameter_trial.py",
+      "original_sha256": "6d80bd37d505077677569b63245437895f4ad72a827dc0a6b2c5bc22a4d37f1b",
+      "migrated_sha256": "6d80bd37d505077677569b63245437895f4ad72a827dc0a6b2c5bc22a4d37f1b"
+    },
+    "experiments.controller_research": {
+      "module": "experiments.puzzles.dynamic_interrupt.controller_research",
+      "old_path": "experiments/controller_research.py",
+      "path": "experiments/puzzles/dynamic_interrupt/controller_research.py",
+      "original_sha256": "4ea6549b2c40bf4fdb83c9e1d5ac0158b52fdeab799888c74148a14aa82ecc87",
+      "migrated_sha256": "68060b0e5fdd1310ec18cd42f367de69963d25033d296c0df8d01ed5f1600a71"
+    },
+    "experiments.dynamic_evolution": {
+      "module": "experiments.alfworld.skill_evolution.dynamic_evolution",
+      "old_path": "experiments/dynamic_evolution.py",
+      "path": "experiments/alfworld/skill_evolution/dynamic_evolution.py",
+      "original_sha256": "c7b9c96a938448a7c44c5d3682037aaad8445834a9ae6f357f92173ffa4e6f69",
+      "migrated_sha256": "c7b9c96a938448a7c44c5d3682037aaad8445834a9ae6f357f92173ffa4e6f69"
+    },
+    "experiments.dynamic_interrupt": {
+      "module": "experiments.alfworld.dynamic_interrupt.dynamic_interrupt",
+      "old_path": "experiments/dynamic_interrupt.py",
+      "path": "experiments/alfworld/dynamic_interrupt/dynamic_interrupt.py",
+      "original_sha256": "e8e91226778d6f0839501da0bf93c56eb371131c2d0514efa063b1cb22053c66",
+      "migrated_sha256": "e8e91226778d6f0839501da0bf93c56eb371131c2d0514efa063b1cb22053c66"
+    },
+    "experiments.equal_operator_attribution": {
+      "module": "experiments.alfworld.comparisons.equal_operator_attribution",
+      "old_path": "experiments/equal_operator_attribution.py",
+      "path": "experiments/alfworld/comparisons/equal_operator_attribution.py",
+      "original_sha256": "77723b8b728ca82124db90881145abf6c776aeb934e4c9f885820bbb2bdb3d29",
+      "migrated_sha256": "77723b8b728ca82124db90881145abf6c776aeb934e4c9f885820bbb2bdb3d29"
+    },
+    "experiments.fixed_chunk": {
+      "module": "experiments.alfworld.static_interrupt.fixed_chunk",
+      "old_path": "experiments/fixed_chunk.py",
+      "path": "experiments/alfworld/static_interrupt/fixed_chunk.py",
+      "original_sha256": "310c294bba8935ca4a768402eacc68a3631eb21d6478524f53edafcd3f48be9e",
+      "migrated_sha256": "310c294bba8935ca4a768402eacc68a3631eb21d6478524f53edafcd3f48be9e"
+    },
+    "experiments.generation_diagnostic": {
+      "module": "experiments.puzzles.protocols.generation_diagnostic",
+      "old_path": "experiments/generation_diagnostic.py",
+      "path": "experiments/puzzles/protocols/generation_diagnostic.py",
+      "original_sha256": "f8cb5279a2d5cc21cfbb59577ff821345f9c1248343be3ed9b266d38ff43210f",
+      "migrated_sha256": "91cea9f3e6c1be60ee942f0fa5a3e30ea867c22497a031167a5e1aec8cfaa6af"
+    },
+    "experiments.gpt_recovery_diagnostic": {
+      "module": "experiments.puzzles.protocols.gpt_recovery_diagnostic",
+      "old_path": "experiments/gpt_recovery_diagnostic.py",
+      "path": "experiments/puzzles/protocols/gpt_recovery_diagnostic.py",
+      "original_sha256": "db0f442176b56af4a9e2790ea93964180bf582fe4fdb07bfb4a3d1013b9eef2b",
+      "migrated_sha256": "db0f442176b56af4a9e2790ea93964180bf582fe4fdb07bfb4a3d1013b9eef2b"
+    },
+    "experiments.gpt_rollout_batch": {
+      "module": "experiments.puzzles.protocols.gpt_rollout_batch",
+      "old_path": "experiments/gpt_rollout_batch.py",
+      "path": "experiments/puzzles/protocols/gpt_rollout_batch.py",
+      "original_sha256": "fa2ccc552125f69764bbc282e4a888c7e5c8a8af74f0e77f3124bfd3df901897",
+      "migrated_sha256": "fa2ccc552125f69764bbc282e4a888c7e5c8a8af74f0e77f3124bfd3df901897"
+    },
+    "experiments.interrupt_recovery_ablation": {
+      "module": "experiments.alfworld.dynamic_interrupt.interrupt_recovery_ablation",
+      "old_path": "experiments/interrupt_recovery_ablation.py",
+      "path": "experiments/alfworld/dynamic_interrupt/interrupt_recovery_ablation.py",
+      "original_sha256": "be079b6f4967cc4bbbb466a232e5983d8bff85fd9ed672194b3091788d5b84bc",
+      "migrated_sha256": "be079b6f4967cc4bbbb466a232e5983d8bff85fd9ed672194b3091788d5b84bc"
+    },
+    "experiments.micro_evolution_loop": {
+      "module": "experiments.alfworld.skill_evolution.micro_evolution_loop",
+      "old_path": "experiments/micro_evolution_loop.py",
+      "path": "experiments/alfworld/skill_evolution/micro_evolution_loop.py",
+      "original_sha256": "c01582e2ab525ec768768f0951476031abd9eee2a425c5c1f5e80c51ce4d35c1",
+      "migrated_sha256": "c01582e2ab525ec768768f0951476031abd9eee2a425c5c1f5e80c51ce4d35c1"
+    },
+    "experiments.paper_cold_start_gate": {
+      "module": "experiments.puzzles.protocols.paper_cold_start_gate",
+      "old_path": "experiments/paper_cold_start_gate.py",
+      "path": "experiments/puzzles/protocols/paper_cold_start_gate.py",
+      "original_sha256": "d57bba6688d0b330a2267c9295431914b04546a9b15a46719a21f2b00a2b08d9",
+      "migrated_sha256": "d57bba6688d0b330a2267c9295431914b04546a9b15a46719a21f2b00a2b08d9"
+    },
+    "experiments.paper_method_confirmation": {
+      "module": "experiments.alfworld.comparisons.paper_method_confirmation",
+      "old_path": "experiments/paper_method_confirmation.py",
+      "path": "experiments/alfworld/comparisons/paper_method_confirmation.py",
+      "original_sha256": "5081bb0f55133d2138a5991d176835a8264018befc97b51a405d2fe6ef929b06",
+      "migrated_sha256": "5081bb0f55133d2138a5991d176835a8264018befc97b51a405d2fe6ef929b06"
+    },
+    "experiments.paper_method_trial": {
+      "module": "experiments.alfworld.comparisons.paper_method_trial",
+      "old_path": "experiments/paper_method_trial.py",
+      "path": "experiments/alfworld/comparisons/paper_method_trial.py",
+      "original_sha256": "1cc0b049fca9b2b896f5cdabef43285ca728aa7093311f10b4f10171ba418372",
+      "migrated_sha256": "1cc0b049fca9b2b896f5cdabef43285ca728aa7093311f10b4f10171ba418372"
+    },
+    "experiments.paper_method_validation": {
+      "module": "experiments.alfworld.comparisons.paper_method_validation",
+      "old_path": "experiments/paper_method_validation.py",
+      "path": "experiments/alfworld/comparisons/paper_method_validation.py",
+      "original_sha256": "eebbb20489e5f3ed8ae8a61c5144c219d7a76baadb189f32e7babf265228a8df",
+      "migrated_sha256": "eebbb20489e5f3ed8ae8a61c5144c219d7a76baadb189f32e7babf265228a8df"
+    },
+    "experiments.prefix_recovery_trial": {
+      "module": "experiments.alfworld.dynamic_interrupt.prefix_recovery_trial",
+      "old_path": "experiments/prefix_recovery_trial.py",
+      "path": "experiments/alfworld/dynamic_interrupt/prefix_recovery_trial.py",
+      "original_sha256": "1c47f10ad99a51bd916c82dbd95971f70c896688e87509d0487be6932193f369",
+      "migrated_sha256": "1c47f10ad99a51bd916c82dbd95971f70c896688e87509d0487be6932193f369"
+    },
+    "experiments.prepare_brief_protocol_pair": {
+      "module": "experiments.puzzles.protocols.prepare_brief_protocol_pair",
+      "old_path": "experiments/prepare_brief_protocol_pair.py",
+      "path": "experiments/puzzles/protocols/prepare_brief_protocol_pair.py",
+      "original_sha256": "eb5eedee72b4c0717d1cd4d2ab8e58d3020db9d693aca553d2b9ceffeb099691",
+      "migrated_sha256": "b660d8ccef8810bab7d636c0d450ea3588e283e2d26a32881c5d121733e2970e"
+    },
+    "experiments.prepare_cold_start_gate": {
+      "module": "experiments.puzzles.protocols.prepare_cold_start_gate",
+      "old_path": "experiments/prepare_cold_start_gate.py",
+      "path": "experiments/puzzles/protocols/prepare_cold_start_gate.py",
+      "original_sha256": "4f91a728c9206cc4921918154d181a5556d25e8e50a880770518471a10dd95df",
+      "migrated_sha256": "cd999880a2442147429d98be3682c802c6cc03d15e7306763de5e8b646b7722b"
+    },
+    "experiments.prepare_control_only": {
+      "module": "experiments.alfworld.skill_evolution.prepare_control_only",
+      "old_path": "experiments/prepare_control_only.py",
+      "path": "experiments/alfworld/skill_evolution/prepare_control_only.py",
+      "original_sha256": "5829c4380605fb96f52b8252f8b6cd5119f22029e6e40c2dd588f96a602b5fcf",
+      "migrated_sha256": "5829c4380605fb96f52b8252f8b6cd5119f22029e6e40c2dd588f96a602b5fcf"
+    },
+    "experiments.prepare_curriculum": {
+      "module": "experiments.puzzles.common.prepare_curriculum",
+      "old_path": "experiments/prepare_curriculum.py",
+      "path": "experiments/puzzles/common/prepare_curriculum.py",
+      "original_sha256": "425219a6b132630a07bc8956d1a7e183386c1ee05f6b9652f0f4d6560358a7d4",
+      "migrated_sha256": "602755b1d4364b59038e6529ecefddc4b2a1b467023ef4c8b93da2f420218a42"
+    },
+    "experiments.prepare_evolution": {
+      "module": "experiments.puzzles.skill_evolution.prepare_evolution",
+      "old_path": "experiments/prepare_evolution.py",
+      "path": "experiments/puzzles/skill_evolution/prepare_evolution.py",
+      "original_sha256": "369b34abcff129ec71afc4715bc7819cdae328cb3f426ef4742e2150112ed4bd",
+      "migrated_sha256": "a9a0a3fef06dd01aef0cf6c5f074762fbb439b81cef1db928b302214a88d82d2"
+    },
+    "experiments.prepare_paper_cold_start_gate": {
+      "module": "experiments.puzzles.protocols.prepare_paper_cold_start_gate",
+      "old_path": "experiments/prepare_paper_cold_start_gate.py",
+      "path": "experiments/puzzles/protocols/prepare_paper_cold_start_gate.py",
+      "original_sha256": "1ad909d3fbc1654f27659ac9c86558a263cfc765be13c7fc03770c7d9508bc7b",
+      "migrated_sha256": "139590e9c83da16a9df139b5061de18075cdf113ca94db2d7a1a26154636015c"
+    },
+    "experiments.prepare_puzzles": {
+      "module": "experiments.puzzles.common.prepare_puzzles",
+      "old_path": "experiments/prepare_puzzles.py",
+      "path": "experiments/puzzles/common/prepare_puzzles.py",
+      "original_sha256": "b61bdb89e4f8f05ced05671378b3977e49b7e055900afd0c8a0b9b5369bbb994",
+      "migrated_sha256": "84463009cf774f2bd065ecf057fe6a8d6a67f8a881d8ece41b629856645dd414"
+    },
+    "experiments.prepare_small_evolution_run": {
+      "module": "experiments.puzzles.skill_evolution.prepare_small_evolution_run",
+      "old_path": "experiments/prepare_small_evolution_run.py",
+      "path": "experiments/puzzles/skill_evolution/prepare_small_evolution_run.py",
+      "original_sha256": "c2a867063e75b36a514a264d5b87d6a81cb9901db4398f2e38c17f6a038706b9",
+      "migrated_sha256": "581b31b6ab921bc19e43edb3443de0e555b20e576b3623b963eb7b39b8b935a3"
+    },
+    "experiments.protocol_diagnostic_trial": {
+      "module": "experiments.alfworld.protocols.protocol_diagnostic_trial",
+      "old_path": "experiments/protocol_diagnostic_trial.py",
+      "path": "experiments/alfworld/protocols/protocol_diagnostic_trial.py",
+      "original_sha256": "84bda26acf03a3c168229e755371d05146c557ab28c488df17fa4cd816b297f7",
+      "migrated_sha256": "84bda26acf03a3c168229e755371d05146c557ab28c488df17fa4cd816b297f7"
+    },
+    "experiments.protocol_diagnostic_v4_trial": {
+      "module": "experiments.alfworld.protocols.protocol_diagnostic_v4_trial",
+      "old_path": "experiments/protocol_diagnostic_v4_trial.py",
+      "path": "experiments/alfworld/protocols/protocol_diagnostic_v4_trial.py",
+      "original_sha256": "bd16e23eb9a0f7caca7a569666632def6895be2398ea2ce9e49dc7417004fb18",
+      "migrated_sha256": "bd16e23eb9a0f7caca7a569666632def6895be2398ea2ce9e49dc7417004fb18"
+    },
+    "experiments.protocol_diagnostic_v5_trial": {
+      "module": "experiments.alfworld.protocols.protocol_diagnostic_v5_trial",
+      "old_path": "experiments/protocol_diagnostic_v5_trial.py",
+      "path": "experiments/alfworld/protocols/protocol_diagnostic_v5_trial.py",
+      "original_sha256": "c2683d149cbc35ce57ac85d62725e5a7cdeeeb2b83c6c77fb13f4e14c2c6f3c7",
+      "migrated_sha256": "c2683d149cbc35ce57ac85d62725e5a7cdeeeb2b83c6c77fb13f4e14c2c6f3c7"
+    },
+    "experiments.protocol_replay": {
+      "module": "experiments.alfworld.protocols.protocol_replay",
+      "old_path": "experiments/protocol_replay.py",
+      "path": "experiments/alfworld/protocols/protocol_replay.py",
+      "original_sha256": "c48a295a4fffe71ac2cf6fd9cbdeec6219e31e611bc8464d592039c30610bb2d",
+      "migrated_sha256": "c48a295a4fffe71ac2cf6fd9cbdeec6219e31e611bc8464d592039c30610bb2d"
+    },
+    "experiments.proxy_controller_research": {
+      "module": "experiments.puzzles.dynamic_interrupt.proxy_controller_research",
+      "old_path": "experiments/proxy_controller_research.py",
+      "path": "experiments/puzzles/dynamic_interrupt/proxy_controller_research.py",
+      "original_sha256": "f0249ee5437c21ec77918be46157478cd79f23392d4ce9b6c52c71d97b5f14dc",
+      "migrated_sha256": "f0249ee5437c21ec77918be46157478cd79f23392d4ce9b6c52c71d97b5f14dc"
+    },
+    "experiments.puzzle_pilot": {
+      "module": "experiments.common.puzzle_pilot",
+      "old_path": "experiments/puzzle_pilot.py",
+      "path": "experiments/common/puzzle_pilot.py",
+      "original_sha256": "30609e5782f4909b75645374ea40b90aa000338e19e9929fdbd699ae1ebd604e",
+      "migrated_sha256": "87d38ba9087bab087c38ba82c8620d3561ddc618117658c339e2b5a2681fcef9"
+    },
+    "experiments.queue_revision_opportunity_trial": {
+      "module": "experiments.alfworld.dynamic_interrupt.queue_revision_opportunity_trial",
+      "old_path": "experiments/queue_revision_opportunity_trial.py",
+      "path": "experiments/alfworld/dynamic_interrupt/queue_revision_opportunity_trial.py",
+      "original_sha256": "ef1d73f78680191747f9bc9afffe41b12919f089c1f68f70f98947d6cea4b507",
+      "migrated_sha256": "ef1d73f78680191747f9bc9afffe41b12919f089c1f68f70f98947d6cea4b507"
+    },
+    "experiments.queue_revision_transfer_trial": {
+      "module": "experiments.alfworld.dynamic_interrupt.queue_revision_transfer_trial",
+      "old_path": "experiments/queue_revision_transfer_trial.py",
+      "path": "experiments/alfworld/dynamic_interrupt/queue_revision_transfer_trial.py",
+      "original_sha256": "e20d78361dc8747bc152570a8c063d95b73f3be80c00755c566784b6c4b6a4bf",
+      "migrated_sha256": "e20d78361dc8747bc152570a8c063d95b73f3be80c00755c566784b6c4b6a4bf"
+    },
+    "experiments.queue_revision_unknown_trial": {
+      "module": "experiments.alfworld.dynamic_interrupt.queue_revision_unknown_trial",
+      "old_path": "experiments/queue_revision_unknown_trial.py",
+      "path": "experiments/alfworld/dynamic_interrupt/queue_revision_unknown_trial.py",
+      "original_sha256": "d0555bbd99c80f5159ac6ddb549df89cced089b62d0d4afb06b065e5522c9c29",
+      "migrated_sha256": "d0555bbd99c80f5159ac6ddb549df89cced089b62d0d4afb06b065e5522c9c29"
+    },
+    "experiments.qwen_alfworld_pair": {
+      "module": "experiments.alfworld.comparisons.qwen_alfworld_pair",
+      "old_path": "experiments/qwen_alfworld_pair.py",
+      "path": "experiments/alfworld/comparisons/qwen_alfworld_pair.py",
+      "original_sha256": "5b673cdd5c9057c6234e3e419652f8e5b7a5e7fc2ae099c165994070ef232186",
+      "migrated_sha256": "92c82c788ccaaab53cd3c7180f0be358dd9aaa220516fa8848ded2e0ba926a45"
+    },
+    "experiments.qwen_model_pair": {
+      "module": "experiments.puzzles.common.qwen_model_pair",
+      "old_path": "experiments/qwen_model_pair.py",
+      "path": "experiments/puzzles/common/qwen_model_pair.py",
+      "original_sha256": "d10a95e654d4848e4f0dea49be47426c73c0bb81d36e0931bc28b8eb7b047c8f",
+      "migrated_sha256": "2caac90029c1266cea56c8b2e7e975708acec4636f74903407e7e5a3b938ee8e"
+    },
+    "experiments.react": {
+      "module": "experiments.alfworld.react.react",
+      "old_path": "experiments/react.py",
+      "path": "experiments/alfworld/react/react.py",
+      "original_sha256": "d28f35c3247f4d7e12e9f75f2fad9547d590001a7542244989197113b451367e",
+      "migrated_sha256": "d28f35c3247f4d7e12e9f75f2fad9547d590001a7542244989197113b451367e"
+    },
+    "experiments.recovered_brief_protocol_pair": {
+      "module": "experiments.puzzles.protocols.recovered_brief_protocol_pair",
+      "old_path": "experiments/recovered_brief_protocol_pair.py",
+      "path": "experiments/puzzles/protocols/recovered_brief_protocol_pair.py",
+      "original_sha256": "9cfab9b8626d0ba86ddd7a50a64c9fee829e0fdd2243ba3ebcc22d428d4bfb07",
+      "migrated_sha256": "9cfab9b8626d0ba86ddd7a50a64c9fee829e0fdd2243ba3ebcc22d428d4bfb07"
+    },
+    "experiments.resume_brief_protocol_pair": {
+      "module": "experiments.puzzles.protocols.resume_brief_protocol_pair",
+      "old_path": "experiments/resume_brief_protocol_pair.py",
+      "path": "experiments/puzzles/protocols/resume_brief_protocol_pair.py",
+      "original_sha256": "8d3161e49346d73d707e06542836c60ad4b4812773f9571fa4581d941be25757",
+      "migrated_sha256": "8d3161e49346d73d707e06542836c60ad4b4812773f9571fa4581d941be25757"
+    },
+    "experiments.resume_controller_research": {
+      "module": "experiments.puzzles.dynamic_interrupt.resume_controller_research",
+      "old_path": "experiments/resume_controller_research.py",
+      "path": "experiments/puzzles/dynamic_interrupt/resume_controller_research.py",
+      "original_sha256": "324c0f4d0995bd5b62990b08601495d6bd4f8a80df9dac2493910d22426e58a5",
+      "migrated_sha256": "324c0f4d0995bd5b62990b08601495d6bd4f8a80df9dac2493910d22426e58a5"
+    },
+    "experiments.resume_queue_revision_unknown": {
+      "module": "experiments.alfworld.dynamic_interrupt.resume_queue_revision_unknown",
+      "old_path": "experiments/resume_queue_revision_unknown.py",
+      "path": "experiments/alfworld/dynamic_interrupt/resume_queue_revision_unknown.py",
+      "original_sha256": "312d2af1f7e5105024238b65a55d6ff4952ac45463ca24105922a8c00a598400",
+      "migrated_sha256": "312d2af1f7e5105024238b65a55d6ff4952ac45463ca24105922a8c00a598400"
+    },
+    "experiments.skill_evolution": {
+      "module": "experiments.puzzles.skill_evolution.skill_evolution",
+      "old_path": "experiments/skill_evolution.py",
+      "path": "experiments/puzzles/skill_evolution/skill_evolution.py",
+      "original_sha256": "cca257384cf78f83a2e917f492bb6c26ae958fec53072fd545c2fb3867fc40ee",
+      "migrated_sha256": "cca257384cf78f83a2e917f492bb6c26ae958fec53072fd545c2fb3867fc40ee"
+    },
+    "experiments.space_boundary_trial": {
+      "module": "experiments.alfworld.operators.space_boundary_trial",
+      "old_path": "experiments/space_boundary_trial.py",
+      "path": "experiments/alfworld/operators/space_boundary_trial.py",
+      "original_sha256": "4962b0ecd88245745d773dc759a9f1573654c870a982db491c5a501b9bcebb43",
+      "migrated_sha256": "4962b0ecd88245745d773dc759a9f1573654c870a982db491c5a501b9bcebb43"
+    },
+    "experiments.space_subskill_trial": {
+      "module": "experiments.alfworld.operators.space_subskill_trial",
+      "old_path": "experiments/space_subskill_trial.py",
+      "path": "experiments/alfworld/operators/space_subskill_trial.py",
+      "original_sha256": "3c8afeca1cfc6930e940a6364821eeed8fc0ec7d330211418f7bf2206fe10e46",
+      "migrated_sha256": "3c8afeca1cfc6930e940a6364821eeed8fc0ec7d330211418f7bf2206fe10e46"
+    },
+    "experiments.space_subskill_v2_trial": {
+      "module": "experiments.alfworld.operators.space_subskill_v2_trial",
+      "old_path": "experiments/space_subskill_v2_trial.py",
+      "path": "experiments/alfworld/operators/space_subskill_v2_trial.py",
+      "original_sha256": "1b46e2c0aaa6b731df0a86c871f915f3233fdd46a9783f35cd710b41a68800c2",
+      "migrated_sha256": "1b46e2c0aaa6b731df0a86c871f915f3233fdd46a9783f35cd710b41a68800c2"
+    },
+    "experiments.subskill_exposure_trial": {
+      "module": "experiments.alfworld.operators.subskill_exposure_trial",
+      "old_path": "experiments/subskill_exposure_trial.py",
+      "path": "experiments/alfworld/operators/subskill_exposure_trial.py",
+      "original_sha256": "d78053e4717ae337b49a702583e71a9935ccc3df0777c19eef51f74d5e504296",
+      "migrated_sha256": "d78053e4717ae337b49a702583e71a9935ccc3df0777c19eef51f74d5e504296"
+    },
+    "experiments.subskill_fixed_trial": {
+      "module": "experiments.alfworld.operators.subskill_fixed_trial",
+      "old_path": "experiments/subskill_fixed_trial.py",
+      "path": "experiments/alfworld/operators/subskill_fixed_trial.py",
+      "original_sha256": "0b097352d62ceda8cfcfe3a21d31a2d13d00a550cc0fe37846eb5a07c29bac69",
+      "migrated_sha256": "0b097352d62ceda8cfcfe3a21d31a2d13d00a550cc0fe37846eb5a07c29bac69"
+    },
+    "experiments.unknown_independent_validation": {
+      "module": "experiments.alfworld.dynamic_interrupt.unknown_independent_validation",
+      "old_path": "experiments/unknown_independent_validation.py",
+      "path": "experiments/alfworld/dynamic_interrupt/unknown_independent_validation.py",
+      "original_sha256": "7c2a74b49f639ab36590a5ec61077a0487edd079258d5d9c9215dfccdd96dfd5",
+      "migrated_sha256": "7c2a74b49f639ab36590a5ec61077a0487edd079258d5d9c9215dfccdd96dfd5"
+    },
+    "experiments.verify_interrupt_recovery_offline": {
+      "module": "experiments.common.verify_interrupt_recovery_offline",
+      "old_path": "experiments/verify_interrupt_recovery_offline.py",
+      "path": "experiments/common/verify_interrupt_recovery_offline.py",
+      "original_sha256": "c3f7d97a5e034aa95a9d2f035e1e2a986b19c2271176eaf14833985106af34b0",
+      "migrated_sha256": "c3f7d97a5e034aa95a9d2f035e1e2a986b19c2271176eaf14833985106af34b0"
+    },
+    "experiments.verify_queue_revision": {
+      "module": "experiments.alfworld.dynamic_interrupt.verify_queue_revision",
+      "old_path": "experiments/verify_queue_revision.py",
+      "path": "experiments/alfworld/dynamic_interrupt/verify_queue_revision.py",
+      "original_sha256": "5e6d3d04b4ff48f402136cfe394a21ecaa25e195338b9f29e55f13b6ad86ce33",
+      "migrated_sha256": "5e6d3d04b4ff48f402136cfe394a21ecaa25e195338b9f29e55f13b6ad86ce33"
+    }
+  },
+  "archive": "experiments/_archive/20261008_original_sources.zip",
+  "archive_sha256": "a0bdff63a9a009d67cd2e8d43db1899c0108b2e8b6e4a1862e4dc242e9f7c2d3",
+  "note": "Immutable historical results/snapshots untouched. Old Python imports supported by experiments.__init__. Historical frozen runs must use their recorded source snapshots or the archived original sources, not silently claim current live-source equivalence."
+}
