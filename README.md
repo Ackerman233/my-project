@@ -22,6 +22,7 @@
 GitHub checkout 不包含服务器的绝对路径符号链接。先获取官方依赖：
 
 ```bash
+mv skillopt skillopt-reference
 git clone https://github.com/microsoft/SkillOpt.git skillopt
 python -m pip install -e './skillopt[alfworld]'
 python -m pip install -e . pytest
@@ -29,6 +30,8 @@ python -m pip install -e . pytest
 
 仓库中的 [skillopt/README.md](skillopt/README.md) 仅说明依赖来源；克隆前将该占位目录
 改名为 `skillopt-reference`，再执行上述命令。后文的服务器专用路径需替换为自己的工作目录。
+
+以下为项目早期使用说明及历史协议；实验结论与当前入口以顶部链接的最新报告为准。
 
 Training-free long-horizon agent prototype built on SkillOpt's ALFWorld
 environment and evaluation infrastructure. The official repository is referenced
@@ -194,5 +197,6 @@ Rush Hour／Sudoku 已新增“训练轨迹 → 候选 skill → 成对验证 �
 
 实验按数据集和方法组织，见 [experiments/README.md](experiments/README.md)；执行组件按职责分层，见 [dynamic_skill/README.md](dynamic_skill/README.md)。
 新的“执行反馈 → 联合改写技能与中断策略 → 筛选 → 再评估”多轮流程及离线演示，见 [联合进化说明](experiments/alfworld/joint_evolution/README.md)。
-这是训练-free 文档和声明式中断规则搜索；尚未执行付费进化实验，不能把脚本集成测试当成模型效果。
+这是 training-free 文档和声明式中断规则搜索；10月8日后已有付费进化验证，尚未得到被接受的联合候选。
+实验状态见顶部最新报告；脚本集成测试仅验证工程机制。
 ALFWorld 的旧 `dynamic_evolution.py` 仍仅导出建议，不等于这个新闭环。
